@@ -233,6 +233,40 @@ public:
 
   void levelOrderTraversal() const { std::cout << "Level order traversal\n"; };
 
+
+  void insertNodes(std::vector<NodePtr> &node_list) {
+    // Sort the node sequence for correct tree insertion
+    auto comp_nodes = [](NodePtr &a, NodePtr &b) {
+      return a->getPosition().length() < b->getPosition().length();
+    };
+    std::sort(node_list.begin(), node_list.end(), comp_nodes);
+
+    // Insert nodes
+    for (auto &n : node_list) {
+      auto parent = head;
+      std::string node_path = n->getPosition();
+
+      while (node_path.size() > 1) {
+        // Traverse to left or right
+        parent = parent->getChild(node_path.front());
+        node_path = node_path.substr(node_path.size() - 1);
+      }
+
+      if (parent->getChild(node_path.front()) != nullptr) {
+        // Traverse one last time
+        parent = parent->getChild(node_path.front());
+        if (parent->getChild(node_path.front()) != nullptr) {
+          throw std::runtime_error(
+              "inserting new node to already taken position");
+        } else {
+          parent->setChild(node_path.front(), n);
+        }
+      } else {
+        parent->setChild(node_path.front(), n);
+      }
+    }
+  };
+
   bool isCompletelySpecified() const { return tree_specified; };
 
 private:
@@ -273,6 +307,7 @@ int main(int argc, char *argv[]) {
 
     // Build tree
     Tree bin_tree(head);
+    bin_tree.insertNodes(node_list);
     bin_tree.levelOrderTraversal();
     if (!bin_tree.isCompletelySpecified()) {
       std::cout << "not complete\n";
@@ -280,6 +315,9 @@ int main(int argc, char *argv[]) {
 
   } catch (const std::invalid_argument &e) {
     std::cerr << "Invalid argument: " << e.what() << "\n";
+    return -1;
+  } catch (const std::runtime_error &e) {
+    std::cerr << "Runtime error: " << e.what() << "\n";
     return -1;
   } catch (...) {
     std::cerr << "An unexpected error occured.\n";

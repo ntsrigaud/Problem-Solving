@@ -1,4 +1,5 @@
 #include <iostream>
+#include <memory>
 #include <stack>
 #include <stdexcept>
 #include <string>
@@ -64,6 +65,14 @@ public:
   int getValue() const { return value; };
   std::string getPosition() const { return position; };
 
+  std::shared_ptr<TreeNode> getChild(int n) {
+    if (n != 0 || n != 1) {
+      return nullptr;
+    }
+
+    return (n == 0) ? left : right;
+  };
+
   friend std::ostream &operator<<(std::ostream &out, const TreeNode &t) {
     out << "(" << t.value << ", " << t.position << ")";
     return out;
@@ -72,6 +81,8 @@ public:
 private:
   int value;
   std::string position;
+  std::shared_ptr<TreeNode> left;
+  std::shared_ptr<TreeNode> right;
 };
 
 // Token stream class
@@ -157,7 +168,7 @@ Token Token_stream::get()
 
 Token_stream ts;
 
-TreeNode primary() {
+std::shared_ptr<TreeNode> primary() {
   Token t = ts.get();
 
   if (t.kind == NUMBER) {
@@ -172,25 +183,26 @@ TreeNode primary() {
     t = ts.get();
     if (t.kind == ')') {
       ts.putback(t);
-      return TreeNode{v, HEAD};
+      return std::make_shared<TreeNode>(v, HEAD);
     } else if (t.kind == POSITION) {
-      return TreeNode{v, t.position};
+      return std::make_shared<TreeNode>(v, t.position);
     } else {
       throw std::invalid_argument("'position' expected");
     }
   } else if (t.kind == ')') {
     // End of input in main process
-    return TreeNode{INVALID_NODE_VALUE, INVALID_NODE_POSITION};
+    return std::make_shared<TreeNode>(INVALID_NODE_VALUE,
+                                      INVALID_NODE_POSITION);
   }
 
   throw std::invalid_argument("'number' expected");
 };
 
-TreeNode expression() {
+std::shared_ptr<TreeNode> expression() {
   Token t = ts.get();
 
   if (t.kind == '(') {
-    TreeNode node = primary();
+    auto node = primary();
     t = ts.get();
     if (t.kind != ')') {
       throw std::invalid_argument("')' expected");

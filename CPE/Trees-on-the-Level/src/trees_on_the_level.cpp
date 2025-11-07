@@ -56,7 +56,6 @@ constexpr char RIGHT = 'R';
 constexpr char POSITION = 'p';
 constexpr int INVALID_NODE_VALUE = -1;
 
-const std::string HEAD = "H";
 const std::string INVALID_NODE_POSITION = "I";
 
 class TreeNode {
@@ -181,7 +180,7 @@ std::shared_ptr<TreeNode> primary() {
     t = ts.get();
     if (t.kind == ')') {
       ts.putback(t);
-      return std::make_shared<TreeNode>(v, HEAD);
+      return std::make_shared<TreeNode>(v, "");
     } else if (t.kind == POSITION) {
       return std::make_shared<TreeNode>(v, t.position);
     } else {
@@ -240,7 +239,7 @@ int main(int argc, char *argv[]) {
       }
 
       // Extract head node from sequence
-      if (new_node->getPosition() == HEAD) {
+      if (new_node->getPosition().empty()) {
         if (head != nullptr) {
           throw std::invalid_argument("binary tree with multiple head nodes");
         }

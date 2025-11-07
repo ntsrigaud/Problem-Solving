@@ -63,7 +63,8 @@ using NodePtr = std::shared_ptr<TreeNode>;
 
 class TreeNode {
 public:
-  explicit TreeNode(int v, const std::string &pos) : value{v}, position{pos} {};
+  explicit TreeNode(int v, const std::string &pos)
+      : value{v}, position{pos}, left{nullptr}, right{nullptr} {};
 
   int getValue() const { return value; };
   std::string getPosition() const { return position; };

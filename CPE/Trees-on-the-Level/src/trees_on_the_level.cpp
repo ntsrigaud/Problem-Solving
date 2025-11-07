@@ -249,21 +249,14 @@ public:
       while (node_path.size() > 1) {
         // Traverse to left or right
         parent = parent->getChild(node_path.front());
-        node_path = node_path.substr(node_path.size() - 1);
+        node_path = node_path.substr(1, node_path.size());
       }
 
       if (parent->getChild(node_path.front()) != nullptr) {
-        // Traverse one last time
-        parent = parent->getChild(node_path.front());
-        if (parent->getChild(node_path.front()) != nullptr) {
-          throw std::runtime_error(
-              "inserting new node to already taken position");
-        } else {
-          parent->setChild(node_path.front(), n);
-        }
-      } else {
-        parent->setChild(node_path.front(), n);
+        throw std::runtime_error(
+            "inserting new node to already taken position");
       }
+      parent->setChild(node_path.front(), n);
     }
   };
 

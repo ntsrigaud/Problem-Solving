@@ -239,7 +239,7 @@ public:
 
     q.push(head);
     while (!q.empty()) {
-      std::cout << q.front()->getValue() << " ";
+      std::cout << q.front()->getValue();
 
       auto left_child = q.front()->getChild(LEFT);
       auto right_child = q.front()->getChild(RIGHT);
@@ -249,6 +249,10 @@ public:
         q.push(right_child);
 
       q.pop();
+
+      if (!q.empty()) {
+        std::cout << " ";
+      }
     }
     std::cout << '\n';
   };

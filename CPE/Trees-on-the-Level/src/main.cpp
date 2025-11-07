@@ -4,8 +4,7 @@
 int main() {
   try {
     Solution solution;
-
-    // Main program logic here
+    solution.run();
 
   } catch (const std::invalid_argument &e) {
     std::cerr << "Error: " << e.what() << "\n";

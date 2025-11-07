@@ -252,6 +252,9 @@ public:
   };
 
   void insertNodes(std::vector<NodePtr> &node_list) {
+    std::string node_path;
+    NodePtr parent;
+
     // Sort the node sequence for correct tree insertion
     auto comp_nodes = [](NodePtr &a, NodePtr &b) {
       return a->getPosition().length() < b->getPosition().length();
@@ -260,8 +263,8 @@ public:
 
     // Insert nodes
     for (auto &n : node_list) {
-      auto parent = head;
-      std::string node_path = n->getPosition();
+      parent = head;
+      node_path = n->getPosition();
 
       while (node_path.size() > 1) {
         // Traverse to left or right

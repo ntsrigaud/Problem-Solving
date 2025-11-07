@@ -249,6 +249,7 @@ public:
 
       q.pop();
     }
+    std::cout << '\n';
   };
 
   void insertNodes(std::vector<NodePtr> &node_list) {

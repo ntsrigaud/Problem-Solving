@@ -1,5 +1,7 @@
+#include <algorithm>
 #include <iostream>
 #include <memory>
+#include <queue>
 #include <stack>
 #include <stdexcept>
 #include <string>
@@ -231,8 +233,23 @@ class Tree {
 public:
   explicit Tree(NodePtr h) : head(h) {};
 
-  void levelOrderTraversal() const { std::cout << "Level order traversal\n"; };
+  void levelOrderTraversal() const {
+    std::queue<NodePtr> q;
 
+    q.push(head);
+    while (!q.empty()) {
+      std::cout << q.front()->getValue() << " ";
+
+      auto left_child = q.front()->getChild(LEFT);
+      auto right_child = q.front()->getChild(RIGHT);
+      if (left_child)
+        q.push(left_child);
+      if (right_child)
+        q.push(right_child);
+
+      q.pop();
+    }
+  };
 
   void insertNodes(std::vector<NodePtr> &node_list) {
     // Sort the node sequence for correct tree insertion

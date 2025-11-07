@@ -212,6 +212,19 @@ std::shared_ptr<TreeNode> expression() {
   throw std::invalid_argument("'(' expected");
 };
 
+class Tree {
+public:
+  explicit Tree(std::shared_ptr<TreeNode> h) : head(h) {};
+
+  void levelOrderTraversal() const { std::cout << "Level order traversal\n"; };
+
+  bool isCompletelySpecified() const { return tree_specified; };
+
+private:
+  std::shared_ptr<TreeNode> head;
+  int tree_specified = true;
+};
+
 int main(int argc, char *argv[]) {
 
   // Get nodes

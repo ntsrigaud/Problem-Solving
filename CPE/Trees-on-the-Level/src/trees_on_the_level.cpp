@@ -113,7 +113,7 @@ public:
   Token() : kind{0}, value{0} {};
   Token(char k) : kind{k}, value{0} {};
   Token(char k, int v) : kind{k}, value{v} {};
-  Token(char k, std::string d) : kind{k}, value{0}, position{d} {};
+  Token(char k, std::string &d) : kind{k}, value{0}, position{d} {};
 };
 
 class Token_stream {

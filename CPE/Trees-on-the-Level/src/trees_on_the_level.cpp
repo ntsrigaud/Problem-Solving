@@ -5,6 +5,7 @@
 #include <stack>
 #include <stdexcept>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 /*
@@ -253,6 +254,7 @@ public:
   };
 
   void insertNodes(std::vector<NodePtr> &node_list) {
+    std::unordered_map<int, bool> duplicates;
     std::string node_path;
     NodePtr parent;
 
@@ -264,6 +266,15 @@ public:
 
     // Insert nodes
     for (auto &n : node_list) {
+      // Check for duplicates
+      if (tree_specified) {
+        if (duplicates.count(n->getValue())) {
+          tree_specified = false;
+        } else {
+          duplicates[n->getValue()] = false;
+        }
+      }
+
       parent = head;
       node_path = n->getPosition();
 

@@ -189,6 +189,7 @@ std::shared_ptr<TreeNode> primary() {
     }
   } else if (t.kind == ')') {
     // End of input in main process
+    ts.putback(t);
     return std::make_shared<TreeNode>(INVALID_NODE_VALUE,
                                       INVALID_NODE_POSITION);
   }

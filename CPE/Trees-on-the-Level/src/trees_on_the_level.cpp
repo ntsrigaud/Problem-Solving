@@ -3,6 +3,7 @@
 #include <stack>
 #include <stdexcept>
 #include <string>
+#include <vector>
 
 /*
  * UVA: Trees on the level
@@ -123,10 +124,7 @@ Token Token_stream::get()
     ;
 
   if (ch == 0) {
-    std::cerr << "No input" << std::endl;
-    exit(-1);
-  }
-
+    throw std::invalid_argument("no input");
   }
 
   switch (ch) {
@@ -163,7 +161,7 @@ Token Token_stream::get()
   }
   }
 
-  throw std::invalid_argument("Bad token " + std::to_string(ch));
+  throw std::invalid_argument("bad token " + std::to_string(ch));
 };
 
 Token_stream ts;

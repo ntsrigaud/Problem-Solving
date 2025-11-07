@@ -226,16 +226,50 @@ private:
 };
 
 int main(int argc, char *argv[]) {
+  // Assuming that only correct tree node sequences are provided.
 
-  // Get nodes
-  while (true) {
-    TreeNode new_node = expression();
-    if (new_node.getValue() == INVALID_NODE_VALUE) {
-      break;
+  std::vector<std::shared_ptr<TreeNode>> node_list;
+  std::shared_ptr<TreeNode> head;
+
+  try {
+    // Get nodes
+    while (true) {
+      auto new_node = expression();
+      if (new_node->getValue() == INVALID_NODE_VALUE) {
+        break;
+      }
+
+      // Extract head node from sequence
+      if (new_node->getPosition() == HEAD) {
+        if (head != nullptr) {
+          throw std::invalid_argument("binary tree with multiple head nodes");
+        }
+
+        head = new_node;
+      } else {
+        node_list.push_back(new_node);
+      }
     }
 
-    std::cout << "Created: " << new_node << std::endl;
-  }
+    if (node_list.empty()) {
+      throw std::invalid_argument("empty node list");
+      return -1;
+    }
+
+    // Build tree
+    Tree bin_tree(head);
+    bin_tree.levelOrderTraversal();
+    if (!bin_tree.isCompletelySpecified()) {
+      std::cout << "not complete\n";
+    }
+
+  } catch (const std::invalid_argument &e) {
+    std::cerr << "Invalid argument: " << e.what() << "\n";
+    return -1;
+  } catch (...) {
+    std::cerr << "An unexpected error occured.\n";
+    return -1;
+  };
 
   return 0;
 }

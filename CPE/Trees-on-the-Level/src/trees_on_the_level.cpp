@@ -58,6 +58,9 @@ constexpr int INVALID_NODE_VALUE = -1;
 
 const std::string INVALID_NODE_POSITION = "I";
 
+class TreeNode;
+using NodePtr = std::shared_ptr<TreeNode>;
+
 class TreeNode {
 public:
   explicit TreeNode(int v, const std::string &pos) : value{v}, position{pos} {};
@@ -65,12 +68,24 @@ public:
   int getValue() const { return value; };
   std::string getPosition() const { return position; };
 
-  std::shared_ptr<TreeNode> getChild(int n) {
-    if (n != 0 || n != 1) {
+  NodePtr getChild(char p) {
+    if (p != LEFT && p != RIGHT) {
       return nullptr;
     }
 
-    return (n == 0) ? left : right;
+    return (p == LEFT) ? left : right;
+  };
+
+  void setChild(char p, NodePtr &node) {
+    if (p != LEFT && p != RIGHT) {
+      throw std::invalid_argument("invalid child node position");
+    }
+
+    if (p == LEFT) {
+      left = node;
+    } else {
+      right = node;
+    }
   };
 
   friend std::ostream &operator<<(std::ostream &out, const TreeNode &t) {
@@ -81,8 +96,8 @@ public:
 private:
   int value;
   std::string position;
-  std::shared_ptr<TreeNode> left;
-  std::shared_ptr<TreeNode> right;
+  NodePtr left;
+  NodePtr right;
 };
 
 // Token stream class
@@ -165,7 +180,7 @@ Token Token_stream::get()
 
 Token_stream ts;
 
-std::shared_ptr<TreeNode> primary() {
+NodePtr primary() {
   Token t = ts.get();
 
   if (t.kind == NUMBER) {
@@ -196,7 +211,7 @@ std::shared_ptr<TreeNode> primary() {
   throw std::invalid_argument("'number' expected");
 };
 
-std::shared_ptr<TreeNode> expression() {
+NodePtr expression() {
   Token t = ts.get();
 
   if (t.kind == '(') {
@@ -213,22 +228,22 @@ std::shared_ptr<TreeNode> expression() {
 
 class Tree {
 public:
-  explicit Tree(std::shared_ptr<TreeNode> h) : head(h) {};
+  explicit Tree(NodePtr h) : head(h) {};
 
   void levelOrderTraversal() const { std::cout << "Level order traversal\n"; };
 
   bool isCompletelySpecified() const { return tree_specified; };
 
 private:
-  std::shared_ptr<TreeNode> head;
+  NodePtr head;
   int tree_specified = true;
 };
 
 int main(int argc, char *argv[]) {
   // Assuming that only correct tree node sequences are provided.
 
-  std::vector<std::shared_ptr<TreeNode>> node_list;
-  std::shared_ptr<TreeNode> head;
+  std::vector<NodePtr> node_list;
+  NodePtr head;
 
   try {
     // Get nodes

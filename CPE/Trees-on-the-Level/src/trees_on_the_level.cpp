@@ -258,6 +258,9 @@ public:
     std::string node_path;
     NodePtr parent;
 
+    // Insert the head node to the duplicates tracker
+    duplicates[head->getValue()] = false;
+
     // Sort the node sequence for correct tree insertion
     auto comp_nodes = [](NodePtr &a, NodePtr &b) {
       return a->getPosition().length() < b->getPosition().length();

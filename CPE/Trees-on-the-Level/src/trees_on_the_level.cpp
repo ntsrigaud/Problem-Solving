@@ -108,7 +108,7 @@ Token Token_stream::get()
   char ch = 0;
 
   // Ignore all whitespaces
-  while (std::cin.get(ch) && std::isspace(ch) && ch != '\n')
+  while (std::cin.get(ch) && (std::isspace(ch) || ch == '\n'))
     ;
 
   if (ch == 0) {
@@ -116,9 +116,6 @@ Token Token_stream::get()
     exit(-1);
   }
 
-  if (ch == '\n') {
-    std::cout << "Exiting..." << std::endl;
-    exit(0);
   }
 
   switch (ch) {

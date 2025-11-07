@@ -327,7 +327,10 @@ int main(int argc, char *argv[]) {
 
     if (node_list.empty()) {
       throw std::invalid_argument("empty node list");
-      return -1;
+    }
+
+    if (head == nullptr) {
+      throw std::invalid_argument("binary tree without head node");
     }
 
     // Build tree

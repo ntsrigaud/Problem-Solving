@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <iostream>
+#include <memory>
 #include <set>
 #include <vector>
 
@@ -41,13 +42,37 @@
 enum class TreeState : std::int8_t { INVALID, NOT_COMPLETE, COMPLETE };
 enum class ChildPosition : std::int8_t { LEFT = 'L', RIGHT = 'R' };
 
-struct Node {
-  int value;
-  std::string position;
+class Node;
+using NodePtr = std::shared_ptr<Node>;
+
+class Node {
+public:
+  Node(int v, const std::string &pos) : value(v), position(pos) {};
+
+  void setChild(const ChildPosition &p, const NodePtr &n) {
+    if (p == ChildPosition::LEFT) {
+      left = n;
+    } else {
+      right = n;
+    }
+  };
+
+  [[nodiscard]] NodePtr getChild(const ChildPosition &p) const {
+    return (p == ChildPosition::LEFT) ? left : right;
+  }
+
+  [[nodiscard]] std::string getPosition() const { return position; };
+  [[nodiscard]] int getValue() const { return value; };
 
   void print_node() const {
     std::cout << '(' << value << ", " << position << ')';
   };
+
+private:
+  int value;
+  std::string position;
+  NodePtr left;
+  NodePtr right;
 };
 
 int main() {
@@ -60,7 +85,7 @@ int main() {
   std::string position;
   std::string parent;
 
-  std::vector<Node> nodes;
+  std::vector<NodePtr> nodes;
 
   std::set<std::string> position_set;
   std::set<int> value_set;
@@ -78,7 +103,7 @@ int main() {
     // Process the first node
     value_set.emplace(value);
     position_set.emplace(position);
-    nodes.push_back({value, position});
+    nodes.emplace_back(std::make_shared<Node>(value, position));
 
     // Retrieve the rest of nodes in the same sequence
     while (std::cin >> open_par && std::cin.peek() != ')') {
@@ -101,7 +126,7 @@ int main() {
 
       value_set.emplace(value);
       position_set.emplace(position);
-      nodes.push_back({value, position});
+      nodes.emplace_back(std::make_shared<Node>(value, position));
     }
 
     if (tree_state == TreeState::INVALID) {
@@ -112,12 +137,12 @@ int main() {
     // Check for head node
     bool head_found = false;
     for (const auto &n : nodes) {
-      if (!head_found && n.position.empty()) {
+      if (!head_found && n->getPosition().empty()) {
         head_found = true;
         continue;
       }
 
-      if (head_found && n.position.empty()) {
+      if (head_found && n->getPosition().empty()) {
         tree_state = TreeState::INVALID;
         break;
       }

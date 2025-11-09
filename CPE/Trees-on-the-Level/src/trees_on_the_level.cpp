@@ -1,7 +1,9 @@
 #include <algorithm>
 #include <iostream>
 #include <memory>
+#include <queue>
 #include <set>
+#include <stdexcept>
 #include <vector>
 
 /*
@@ -73,6 +75,76 @@ private:
   std::string position;
   NodePtr left;
   NodePtr right;
+};
+
+class Tree {
+public:
+  explicit Tree(const NodePtr &h, std::vector<NodePtr> &nodes) : head(h) {
+    insertNodes(nodes);
+  };
+
+  void levelOrderTraversal() {
+    std::queue<NodePtr> q;
+
+    q.push(head);
+    while (!q.empty()) {
+      std::cout << q.front()->getValue();
+
+      auto left_child = q.front()->getChild(ChildPosition::LEFT);
+      auto right_child = q.front()->getChild(ChildPosition::RIGHT);
+      q.pop();
+
+      if (left_child) {
+        q.push(left_child);
+      }
+      if (right_child) {
+        q.push(right_child);
+      }
+
+      if (!q.empty()) {
+        std::cout << ' ';
+      }
+    }
+
+    std::cout << '\n';
+  };
+
+private:
+  NodePtr head;
+
+  void insertNodes(std::vector<NodePtr> &nodes) {
+    auto comp_nodes = [](const NodePtr &a, const NodePtr &b) {
+      return a->getPosition() < b->getPosition();
+    };
+    std::sort(nodes.begin(), nodes.end(), comp_nodes);
+
+    // Remove the head node if present
+    if (nodes[0]->getPosition().empty()) {
+      nodes.erase(nodes.begin());
+    }
+
+    NodePtr parent;
+    std::string node_path;
+
+    for (const auto &n : nodes) {
+      parent = head;
+      node_path = n->getPosition();
+
+      while (node_path.size() > 1) {
+        // Traverse to the node position
+        parent =
+            parent->getChild(static_cast<ChildPosition>(node_path.front()));
+        node_path = node_path.substr(1, node_path.length());
+      }
+
+      if (parent->getChild(static_cast<ChildPosition>(node_path.front())) !=
+          nullptr) {
+        throw std::runtime_error("Overwriting tree node");
+      }
+
+      parent->setChild(static_cast<ChildPosition>(node_path.front()), n);
+    }
+  };
 };
 
 int main() {
@@ -173,6 +245,16 @@ int main() {
       std::cout << "not complete\n";
       continue; // Proceed to next input sequence directly
     }
+
+    // Tree display
+    Tree bin_tree(head, nodes);
+    bin_tree.levelOrderTraversal();
+
+    // Display level order traversal
+    if (tree_state == TreeState::NOT_COMPLETE) {
+      std::cout << "not complete\n";
+    }
+  }
 
   return 0;
 }

@@ -41,57 +41,56 @@
  *
  * */
 
-enum class TreeState : std::int8_t { INVALID, NOT_COMPLETE, COMPLETE };
-enum class ChildPosition : std::int8_t { LEFT = 'L', RIGHT = 'R' };
+const int INVALID = -1;
+const int NOT_COMPLETE = 0;
+const int COMPLETE = 1;
 
-class Node;
-using NodePtr = std::shared_ptr<Node>;
+const char LEFT = 'L';
+const char RIGHT = 'R';
 
 class Node {
 public:
   Node(int v, const std::string &pos) : value(v), position(pos) {};
 
-  void setChild(const ChildPosition &p, const NodePtr &n) {
-    if (p == ChildPosition::LEFT) {
+  void setChild(char p, const std::shared_ptr<Node> &n) {
+    if (p == LEFT) {
       left = n;
     } else {
       right = n;
     }
   };
 
-  [[nodiscard]] NodePtr getChild(const ChildPosition &p) const {
-    return (p == ChildPosition::LEFT) ? left : right;
+  std::shared_ptr<Node> getChild(char p) const {
+    return (p == LEFT) ? left : right;
   }
 
-  [[nodiscard]] std::string getPosition() const { return position; };
-  [[nodiscard]] int getValue() const { return value; };
-
-  void print_node() const {
-    std::cout << '(' << value << ", " << position << ')';
-  };
+  std::string getPosition() const { return position; };
+  int getValue() const { return value; };
 
 private:
   int value;
   std::string position;
-  NodePtr left;
-  NodePtr right;
+  std::shared_ptr<Node> left;
+  std::shared_ptr<Node> right;
 };
 
 class Tree {
 public:
-  explicit Tree(const NodePtr &h, std::vector<NodePtr> &nodes) : head(h) {
+  explicit Tree(const std::shared_ptr<Node> &h,
+                std::vector<std::shared_ptr<Node>> &nodes)
+      : head(h) {
     insertNodes(nodes);
   };
 
   void levelOrderTraversal() {
-    std::queue<NodePtr> q;
+    std::queue<std::shared_ptr<Node>> q;
 
     q.push(head);
     while (!q.empty()) {
       std::cout << q.front()->getValue();
 
-      auto left_child = q.front()->getChild(ChildPosition::LEFT);
-      auto right_child = q.front()->getChild(ChildPosition::RIGHT);
+      auto left_child = q.front()->getChild(LEFT);
+      auto right_child = q.front()->getChild(RIGHT);
       q.pop();
 
       if (left_child) {
@@ -110,10 +109,11 @@ public:
   };
 
 private:
-  NodePtr head;
+  std::shared_ptr<Node> head;
 
-  void insertNodes(std::vector<NodePtr> &nodes) {
-    auto comp_nodes = [](const NodePtr &a, const NodePtr &b) {
+  void insertNodes(std::vector<std::shared_ptr<Node>> &nodes) {
+    auto comp_nodes = [](const std::shared_ptr<Node> &a,
+                         const std::shared_ptr<Node> &b) {
       return a->getPosition() < b->getPosition();
     };
     std::sort(nodes.begin(), nodes.end(), comp_nodes);
@@ -123,7 +123,7 @@ private:
       nodes.erase(nodes.begin());
     }
 
-    NodePtr parent;
+    std::shared_ptr<Node> parent;
     std::string node_path;
 
     for (const auto &n : nodes) {
@@ -132,17 +132,15 @@ private:
 
       while (node_path.size() > 1) {
         // Traverse to the node position
-        parent =
-            parent->getChild(static_cast<ChildPosition>(node_path.front()));
+        parent = parent->getChild(node_path.front());
         node_path = node_path.substr(1, node_path.length());
       }
 
-      if (parent->getChild(static_cast<ChildPosition>(node_path.front())) !=
-          nullptr) {
+      if (parent->getChild(node_path.front()) != nullptr) {
         throw std::runtime_error("Overwriting tree node");
       }
 
-      parent->setChild(static_cast<ChildPosition>(node_path.front()), n);
+      parent->setChild(node_path.front(), n);
     }
   };
 };
@@ -152,21 +150,21 @@ int main() {
   char comma = 0;
   int value = 0;
 
-  TreeState tree_state = TreeState::INVALID;
+  int tree_state = INVALID;
 
   std::string position;
   std::string parent;
 
-  std::vector<NodePtr> nodes;
+  std::vector<std::shared_ptr<Node>> nodes;
 
-  NodePtr head;
+  std::shared_ptr<Node> head;
 
   std::set<std::string> position_set;
   std::set<int> value_set;
 
   while (std::cin >> open_par >> value >> comma >> position) {
     // Initialize for new processing
-    tree_state = TreeState::COMPLETE;
+    tree_state = COMPLETE;
     nodes.clear();
     position_set.clear();
     value_set.clear();
@@ -187,15 +185,14 @@ int main() {
       // Test the position
       position = position.substr(0, position.length() - 1);
       if (position_set.find(position) != position_set.end()) {
-        tree_state = TreeState::INVALID;
+        tree_state = INVALID;
         break;
       }
 
       // Test the value
-      if (tree_state == TreeState::COMPLETE &&
-          value_set.find(value) != value_set.end()) {
+      if (tree_state == COMPLETE && value_set.find(value) != value_set.end()) {
         // Update only once
-        tree_state = TreeState::NOT_COMPLETE;
+        tree_state = NOT_COMPLETE;
       }
 
       value_set.emplace(value);
@@ -203,7 +200,10 @@ int main() {
       nodes.emplace_back(std::make_shared<Node>(value, position));
     }
 
-    if (tree_state == TreeState::INVALID) {
+    // Remove last ')'
+    std::cin.ignore();
+
+    if (tree_state == INVALID) {
       std::cout << "not complete\n";
       continue; // Proceed to next input sequence directly
     }
@@ -218,12 +218,12 @@ int main() {
       }
 
       if (head_found && n->getPosition().empty()) {
-        tree_state = TreeState::INVALID;
+        tree_state = INVALID;
         break;
       }
     }
 
-    if (tree_state == TreeState::INVALID) {
+    if (tree_state == INVALID) {
       std::cout << "not complete\n";
       continue; // Proceed to next input sequence directly
     }
@@ -235,13 +235,13 @@ int main() {
         parent = pos.substr(0, pos.length() - 1);
         if (position_set.find(parent) == position_set.end()) {
           std::cout << "Missing " << parent << " for " << pos << '\n';
-          tree_state = TreeState::INVALID;
+          tree_state = INVALID;
           break;
         }
       }
     }
 
-    if (tree_state == TreeState::INVALID) {
+    if (tree_state == INVALID) {
       std::cout << "not complete\n";
       continue; // Proceed to next input sequence directly
     }
@@ -251,7 +251,7 @@ int main() {
     bin_tree.levelOrderTraversal();
 
     // Display level order traversal
-    if (tree_state == TreeState::NOT_COMPLETE) {
+    if (tree_state == NOT_COMPLETE) {
       std::cout << "not complete\n";
     }
   }

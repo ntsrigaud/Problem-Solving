@@ -76,11 +76,11 @@ private:
 };
 
 int main() {
-  char open_par;
-  char comma;
-  int value;
+  char open_par = 0;
+  char comma = 0;
+  int value = 0;
 
-  TreeState tree_state;
+  TreeState tree_state = TreeState::INVALID;
 
   std::string position;
   std::string parent;

@@ -103,5 +103,10 @@ int main() {
       nodes.push_back({value, position});
     }
 
+    if (tree_state == TreeState::INVALID) {
+      std::cout << "not complete\n";
+      continue; // Proceed to next input sequence directly
+    }
+
   return 0;
 }

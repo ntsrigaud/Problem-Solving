@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 
 /*
  * UVA: Trees on the level
@@ -45,5 +46,25 @@ struct Node {
 };
 
 int main() {
+  char open_par;
+  char comma;
+  int value;
+  std::string position;
+  std::vector<Node> nodes;
+
+  while (std::cin >> open_par >> value >> comma >> position) {
+    nodes.clear();
+
+    // Process the first node
+    nodes.push_back({value, position.substr(0, position.length() - 1)});
+
+    // Retrieve the rest of nodes in the same sequence
+    while (std::cin >> open_par && std::cin.peek() != ')') {
+      // Retrieve the node values
+      std::cin >> value >> comma >> position;
+
+      nodes.push_back({value, position.substr(0, position.length() - 1)});
+    }
+
   return 0;
 }

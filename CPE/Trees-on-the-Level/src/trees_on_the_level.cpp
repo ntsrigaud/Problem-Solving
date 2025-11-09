@@ -71,8 +71,13 @@ int main() {
     position_set.clear();
     value_set.clear();
 
+    // Remove ending parenthese
+    position = position.substr(0, position.length() - 1);
+
     // Process the first node
-    nodes.push_back({value, position.substr(0, position.length() - 1)});
+    value_set.emplace(value);
+    position_set.emplace(position);
+    nodes.push_back({value, position});
 
     // Retrieve the rest of nodes in the same sequence
     while (std::cin >> open_par && std::cin.peek() != ')') {

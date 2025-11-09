@@ -38,7 +38,8 @@
  *
  * */
 
-enum class TreeState { INVALID, NOT_COMPLETE, COMPLETE };
+enum class TreeState : std::int8_t { INVALID, NOT_COMPLETE, COMPLETE };
+enum class ChildPosition : std::int8_t { LEFT = 'L', RIGHT = 'R' };
 
 struct Node {
   int value;

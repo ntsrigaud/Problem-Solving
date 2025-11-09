@@ -87,6 +87,8 @@ int main() {
 
   std::vector<NodePtr> nodes;
 
+  NodePtr head;
+
   std::set<std::string> position_set;
   std::set<int> value_set;
 
@@ -139,6 +141,7 @@ int main() {
     for (const auto &n : nodes) {
       if (!head_found && n->getPosition().empty()) {
         head_found = true;
+        head = n;
         continue;
       }
 

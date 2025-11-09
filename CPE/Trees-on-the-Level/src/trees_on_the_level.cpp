@@ -127,5 +127,23 @@ int main() {
       continue; // Proceed to next input sequence directly
     }
 
+    // Check for missing parent positions
+    for (const auto &pos : position_set) {
+      // Skip first level nodes directly connected to root
+      if (pos.length() > 1) {
+        parent = pos.substr(0, pos.length() - 1);
+        if (position_set.find(parent) == position_set.end()) {
+          std::cout << "Missing " << parent << " for " << pos << '\n';
+          tree_state = TreeState::INVALID;
+          break;
+        }
+      }
+    }
+
+    if (tree_state == TreeState::INVALID) {
+      std::cout << "not complete\n";
+      continue; // Proceed to next input sequence directly
+    }
+
   return 0;
 }

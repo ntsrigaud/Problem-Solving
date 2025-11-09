@@ -35,4 +35,15 @@
  *
  * */
 
-int main() { return 0; }
+struct Node {
+  int value;
+  std::string position;
+
+  void print_node() const {
+    std::cout << '(' << value << ", " << position << ')';
+  };
+};
+
+int main() {
+  return 0;
+}

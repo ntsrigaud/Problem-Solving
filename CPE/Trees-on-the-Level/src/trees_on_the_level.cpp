@@ -84,7 +84,23 @@ int main() {
       // Retrieve the node values
       std::cin >> value >> comma >> position;
 
-      nodes.push_back({value, position.substr(0, position.length() - 1)});
+      // Test the position
+      position = position.substr(0, position.length() - 1);
+      if (position_set.find(position) != position_set.end()) {
+        tree_state = TreeState::INVALID;
+        break;
+      }
+
+      // Test the value
+      if (tree_state == TreeState::COMPLETE &&
+          value_set.find(value) != value_set.end()) {
+        // Update only once
+        tree_state = TreeState::NOT_COMPLETE;
+      }
+
+      value_set.emplace(value);
+      position_set.emplace(position);
+      nodes.push_back({value, position});
     }
 
   return 0;

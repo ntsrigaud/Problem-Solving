@@ -36,6 +36,8 @@
  *
  * */
 
+enum class TreeState { INVALID, NOT_COMPLETE, COMPLETE };
+
 struct Node {
   int value;
   std::string position;

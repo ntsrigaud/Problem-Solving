@@ -13,6 +13,8 @@
  * Implementation procedure
  * ------------------------
  * 1) Retrieve nodes in main in sequences until you encounter '()'
+ *    - Retrieve the only the first node in the main loop
+ *    - Retrieve the rest of nodes until you encounter '()'
  *
  * 2) Process sequence:
  *    a) Validate sequence:

@@ -1,4 +1,6 @@
+#include <algorithm>
 #include <iostream>
+#include <set>
 #include <vector>
 
 /*
@@ -51,11 +53,23 @@ int main() {
   char open_par;
   char comma;
   int value;
+
+  TreeState tree_state;
+
   std::string position;
+  std::string parent;
+
   std::vector<Node> nodes;
 
+  std::set<std::string> position_set;
+  std::set<int> value_set;
+
   while (std::cin >> open_par >> value >> comma >> position) {
+    // Initialize for new processing
+    tree_state = TreeState::COMPLETE;
     nodes.clear();
+    position_set.clear();
+    value_set.clear();
 
     // Process the first node
     nodes.push_back({value, position.substr(0, position.length() - 1)});

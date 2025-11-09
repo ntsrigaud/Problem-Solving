@@ -108,5 +108,24 @@ int main() {
       continue; // Proceed to next input sequence directly
     }
 
+    // Check for head node
+    bool head_found = false;
+    for (const auto &n : nodes) {
+      if (!head_found && n.position.empty()) {
+        head_found = true;
+        continue;
+      }
+
+      if (head_found && n.position.empty()) {
+        tree_state = TreeState::INVALID;
+        break;
+      }
+    }
+
+    if (tree_state == TreeState::INVALID) {
+      std::cout << "not complete\n";
+      continue; // Proceed to next input sequence directly
+    }
+
   return 0;
 }

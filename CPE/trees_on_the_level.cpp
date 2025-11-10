@@ -111,7 +111,7 @@ int main() {
       nodes.emplace_back(Node{value, position});
     }
 
-    std::cin.ignore(); // Last parenthese from "()"
+    std::cin.ignore(); // Last parenthesis from "()"
 
     if (valid && containsAllPositions(positions)) {
       std::sort(nodes.begin(), nodes.end());

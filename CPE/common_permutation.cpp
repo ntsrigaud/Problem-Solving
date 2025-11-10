@@ -1,9 +1,8 @@
-#include "solution.h"
-#include <algorithm>
-#include <unordered_map>
+#include <iostream>
 
-// Implement problem-specific methods here
-std::string Solution::common_permutation(const StrPair &inputs) const {
+using StrPair = std::pair<std::string, std::string>;
+
+std::string common_permutation(const StrPair &inputs) const {
 
   // Records the characters and their count number.
   auto map_letters =
@@ -36,3 +35,18 @@ std::string Solution::common_permutation(const StrPair &inputs) const {
   std::sort(l_sub.begin(), l_sub.end(), comp);
   return l_sub;
 };
+
+int main() {
+  // TODO: Update main program logic to fit OJ input
+  try {
+    // Main program logic here
+    StrPair in;
+    while (std::cin >> in.first && std::cin >> in.second) {
+      std::cout << common_permutation(in) << '\n';
+    }
+  } catch (const std::invalid_argument &e) {
+    std::cerr << "Error: " << e.what() << "\n";
+  }
+
+  return 0;
+}

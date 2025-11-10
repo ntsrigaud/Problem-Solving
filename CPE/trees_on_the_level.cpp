@@ -50,8 +50,8 @@ struct Node {
   }
 };
 
-bool containsAllPositions(const std::set<std::string> &positions)
 // Check if all binary tree positions are available
+bool containsAllPositions(const std::set<std::string> &positions)
 {
 
   if (positions.find(HEAD) == positions.end()) {

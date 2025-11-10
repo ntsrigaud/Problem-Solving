@@ -1,9 +1,6 @@
 #include <algorithm>
 #include <iostream>
-#include <memory>
-#include <queue>
 #include <set>
-#include <stdexcept>
 #include <vector>
 
 /*
@@ -23,18 +20,132 @@
  *    - Save the first node
  *    - Parse the rest of the sequence until "()"
  *      - Use a set to track duplicate node positions
- *        -> Stop parsing the current sequence if at least one duplicate node is
- * found
- *          -> Display "not complete\n"
- *          -> Proceed to the next input sequence directly
+ *        -> Consume the rest of the invalid sequence
  *      - Use a set to track node duplicate values
  *        -> Tree is not completely specified.
+ *        -> Display "not complete\n"
  *      - Check if all required tree positions are filled.
  *        - Apart from HEAD, all children must have a parent.
- *      - Display the levelOrderTraversal if tree is valid.
+ *      - Display the levelOrderTraversal if tree is VALID.
  *        -> Sort the list in ascending order by their positions
  *        -> Display the values of each node.
  *        * Since the level order starts from LEFT to RIGHT and the sorted node
  * list correspond to that order, we obtain the correct sequence just by sorting
  * the list.
  * */
+
+const std::string HEAD = "H";
+
+struct Node {
+  long long value = 0;
+  std::string position;
+
+  // Overload to allow sorting
+  bool operator<(const Node &other) const {
+    return (position.size() == other.position.size())
+               ? position < other.position
+               : position.size() < other.position.size();
+  }
+};
+
+bool containsAllPositions(const std::set<std::string> &positions)
+// Check if all binary tree positions are available
+{
+
+  if (positions.find(HEAD) == positions.end()) {
+    return false;
+  }
+
+  for (const auto &p : positions) {
+    if (p.size() == 1) {
+      continue;
+    }
+
+    if (positions.find(p.substr(0, p.size() - 1)) == positions.end()) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+int main() {
+  bool duplicate_position = false;
+  bool duplicate_value = false;
+  char comma = 0;
+  char op_par = 0;
+  long long value = 0;
+  std::string position;
+  std::string p;
+  std::set<long long> values;
+  std::set<std::string> positions;
+  std::vector<Node> nodes;
+
+  while (std::cin >> op_par >> value >> comma >> position) {
+    duplicate_position = false;
+    duplicate_value = false;
+    nodes.clear();
+    values.clear();
+    positions.clear();
+
+    position =
+        position.substr(0, position.size() - 1); // remove closing parenthese
+
+    // Get the first node data
+    nodes.emplace_back(Node{value, position});
+    positions.insert(position.empty() ? HEAD : position);
+    values.insert(value);
+
+    // Parse the rest of inputs until ()
+    while (std::cin >> op_par, std::cin.peek() != ')') {
+      // Get the input
+      std::cin >> value >> comma >> position;
+      position = position.substr(0, position.size() - 1);
+
+      p = (position.empty()) ? HEAD
+                             : position; // Allow check for multiple HEAD nodes
+
+      // Check for duplicate positions
+      if (!duplicate_position && positions.find(p) != positions.end()) {
+        duplicate_position = true;
+      }
+      positions.insert(p);
+
+      // Check for duplicate values
+      if (!duplicate_value && values.find(value) != values.end()) {
+        duplicate_value = true;
+      }
+      values.insert(value);
+
+      nodes.emplace_back(Node{value, position});
+    }
+
+    std::cin.ignore(); // Last parenthese from "()"
+
+    // Handle duplicate position loop break
+    if (duplicate_position) {
+      continue; // No need to display LOT
+    }
+
+    if (!containsAllPositions(positions)) {
+      continue;
+    }
+
+    std::sort(nodes.begin(), nodes.end());
+
+    // Level Order Traversal
+    for (size_t i = 0; i < nodes.size(); ++i) {
+      std::cout << nodes[i].value;
+      if (i + 1 < nodes.size()) {
+        std::cout << ' ';
+      }
+    }
+    std::cout << '\n';
+
+    if (duplicate_value) {
+      std::cout << "not complete\n";
+    }
+  }
+
+  return 0;
+}

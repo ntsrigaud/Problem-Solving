@@ -28,8 +28,7 @@ int main() {
       if (!std::isalpha(letter))
         continue;
 
-      record[letter] =
-          (record.find(letter) == record.end()) ? 1 : record[letter] + 1;
+      record[letter]++;
       max_freq = (record[letter] > max_freq) ? record[letter] : max_freq;
     }
 

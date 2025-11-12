@@ -3,7 +3,7 @@
 #include <vector>
 
 /*
- * UVA: Trees on the level
+ * UVA: Box of Bricks
  * Link: https://onlinejudge.org/external/5/591.pdf
  *
  * Revision history:

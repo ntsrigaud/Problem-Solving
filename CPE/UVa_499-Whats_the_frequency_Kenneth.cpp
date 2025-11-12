@@ -32,15 +32,17 @@ int main() {
       max_freq = (record[letter] > max_freq) ? record[letter] : max_freq;
     }
 
-    for (const auto &p : record) {
-      if (p.second == max_freq) {
-        res.push_back(p.first);
+    if (!record.empty()) {
+      for (const auto &p : record) {
+        if (p.second == max_freq) {
+          res.push_back(p.first);
+        }
       }
-    }
 
-    std::sort(res.begin(), res.end());
-    line = std::string(res.begin(), res.end());
-    std::cout << line << " " << max_freq << '\n';
+      std::sort(res.begin(), res.end());
+      line = std::string(res.begin(), res.end());
+      std::cout << line << " " << max_freq << '\n';
+    }
   }
 
   return 0;

@@ -41,8 +41,8 @@ int main() {
       }
     }
 
-    std::cout << "Set #1\nThe minimum number of moves is " << deviations
-              << ".\n";
+    std::cout << "Set #" << set << '\n';
+    std::cout << "The minimum number of moves is " << deviations << ".\n\n";
   }
 
   return 0;

@@ -1,3 +1,4 @@
+#include <array>
 #include <iostream>
 #include <vector>
 
@@ -11,33 +12,34 @@
  * This program implements the solution to the "UVA: Box of Bricks"
  * problem.
  * */
+constexpr int MAX_N = 50;
 
 int main() {
   int n_stacks = 0;
-  int s = 0;
   int sum = 0;
   int final_height = 0;
   int i = 0;
   int deviations = 0;
-  std::vector<int> stacks;
+  int set = 0;
+  std::array<int, MAX_N> stacks;
 
   while (std::cin >> n_stacks && n_stacks > 0) {
+    ++set;
     sum = 0;
     deviations = 0;
 
     for (i = 0; i < n_stacks; ++i) {
-      std::cin >> s;
-      sum += s;
-      stacks.push_back(s);
+      std::cin >> stacks.at(i);
+      sum += stacks.at(i);
     }
 
     // Find the final height
     final_height = sum / n_stacks;
 
     // Compute the positive deviations from the final height
-    for (const auto &s : stacks) {
-      if (s > final_height) {
-        deviations += s - final_height;
+    for (i = 0; i < n_stacks; ++i) {
+      if (stacks.at(i) > final_height) {
+        deviations += stacks.at(i) - final_height;
       }
     }
 

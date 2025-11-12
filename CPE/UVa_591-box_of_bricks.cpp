@@ -1,7 +1,5 @@
 #include <array>
 #include <iostream>
-#include <vector>
-
 /*
  * UVA: Box of Bricks
  * Link: https://onlinejudge.org/external/5/591.pdf

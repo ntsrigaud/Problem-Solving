@@ -1,126 +1,163 @@
-#include <array>
 #include <iostream>
+#include <vector>
 
 /*
  * UVA: How Many Knights
  * Link: https://onlinejudge.org/external/6/696.pdf
  *
- * Revision history:
- * Originally written by Neil Taison Rigaud, November 2025
+ * Backtracking Procedure
+ * ----------------------
+ *  - Normalize the column index at the start of the recursion
+ *    - If it is past end, advance the row
+ *  - If we reach beyond the last row, return 0
+ *  - Search for the next square using local loop variables
+ *  - Try placing a knight, and compare with skipping the cell
  * */
 
 #define LOG(x) std::cout << "Log: " << x << '\n'
 
-constexpr int MAX_SIZE = 500;
 constexpr int KNIGHT_RANGE = 2;
 constexpr char KNIGHT = 'N';
-
-using ChessBoard = std::array<std::array<char, MAX_SIZE>, MAX_SIZE>;
+constexpr char EMPTY = ' ';
 
 struct Coord {
   int row;
   int col;
 };
 
-struct Dim : Coord {};
+struct Dim : Coord {
+  Dim() : Coord{0, 0} {};
+  Dim(int m, int n) : Coord{m, n} {};
+  Dim(const Dim &d) : Coord{d.row, d.col} {};
+};
 
-bool isUnderAttack(ChessBoard &board, Coord &coord, Dim d) {
-  // 2 rows UP, 1 column RIGHT and 1 column LEFT
-  if (coord.row - KNIGHT_RANGE >= 0) {
-    if (coord.col - 1 >= 0 &&
-        board.at(coord.row - KNIGHT_RANGE).at(coord.col - 1) == KNIGHT) {
-      return true;
-    }
+class ChessBoard {
+private:
+  std::vector<std::vector<char>> board;
+  Dim dim;
 
-    if (coord.col + 1 < d.col && coord.col + 1 < MAX_SIZE &&
-        board.at(coord.row - KNIGHT_RANGE).at(coord.col + 1) == KNIGHT) {
-      return true;
-    }
-  }
+public:
+  [[nodiscard]] Dim get_dim() const { return dim; }
 
-  // 2 rows DOWN, 1 column RIGHT and 1 column LEFT
-  if (coord.row + KNIGHT_RANGE < d.row && coord.row + KNIGHT_RANGE < MAX_SIZE) {
-    if (coord.col - 1 >= 0 &&
-        board.at(coord.row + KNIGHT_RANGE).at(coord.col - 1) == KNIGHT) {
-      return true;
-    }
+  explicit ChessBoard(const Dim &d) : dim(d) {
+    board.resize(dim.row, std::vector<char>(dim.col, EMPTY));
+  };
 
-    if (coord.col + 1 < d.col && coord.col + 1 < MAX_SIZE &&
-        board.at(coord.row + KNIGHT_RANGE).at(coord.col + 1) == KNIGHT) {
-      return true;
-    }
-  }
+  [[nodiscard]] bool isUnderAttack(const Coord &coord) const {
+    auto in_row = [&](int r) -> bool { return r >= 0 && r < dim.row; };
+    auto in_col = [&](int c) -> bool { return c >= 0 && c < dim.col; };
 
-  // 2 cols LEFT, 1 row UP and 1 row DOWN
-  if (coord.col - KNIGHT_RANGE >= 0) {
-    if (coord.row - 1 >= 0 &&
-        board.at(coord.row - 1).at(coord.col - KNIGHT_RANGE) == KNIGHT) {
-      return true;
-    }
+    // 2 rows UP, 1 column RIGHT and 1 column LEFT
+    if (in_row(coord.row - KNIGHT_RANGE)) {
+      int r = coord.row - KNIGHT_RANGE;
 
-    if (coord.row + 1 < MAX_SIZE &&
-        board.at(coord.row + 1).at(coord.col - KNIGHT_RANGE) == KNIGHT) {
-      return true;
-    }
-  }
+      if (in_col(coord.col - 1) && board.at(r).at(coord.col - 1) == KNIGHT) {
+        return true;
+      }
 
-  // 2 cols RIGHT, 1 row UP and 1 row DOWN
-  if (coord.col + KNIGHT_RANGE < MAX_SIZE) {
-    if (coord.row - 1 >= 0 &&
-        board.at(coord.row - 1).at(coord.col + KNIGHT_RANGE) == KNIGHT) {
-      return true;
-    }
-
-    if (coord.row + 1 < MAX_SIZE &&
-        board.at(coord.row + 1).at(coord.col + KNIGHT_RANGE) == KNIGHT) {
-      return true;
-    }
-  }
-
-  return false;
-}
-
-int addKnights(std::array<std::array<char, MAX_SIZE>, MAX_SIZE> &board,
-               Dim &d) {
-  board[0][0] = KNIGHT;
-
-  int n_knights = 0;
-  Coord c{0, 0};
-  for (; c.row < d.row; ++c.row) {
-    for (c.col = 0; c.col < d.col; ++c.col) {
-      if (board.at(c.row).at(c.col) != KNIGHT && !isUnderAttack(board, c, d)) {
-        board.at(c.row).at(c.col) = KNIGHT;
-        ++n_knights;
+      if (in_col(coord.col + 1) && board.at(r).at(coord.col + 1) == KNIGHT) {
+        return true;
       }
     }
+
+    // 2 rows DOWN, 1 column RIGHT and 1 column LEFT
+    if (in_row(coord.row + KNIGHT_RANGE)) {
+      int r = coord.row + KNIGHT_RANGE;
+
+      if (in_col(coord.col - 1) && board.at(r).at(coord.col - 1) == KNIGHT) {
+        return true;
+      }
+
+      if (in_col(coord.col + 1) && board.at(r).at(coord.col + 1) == KNIGHT) {
+        return true;
+      }
+    }
+
+    // 2 cols LEFT, 1 row UP and 1 row DOWN
+    if (in_col(coord.col - KNIGHT_RANGE)) {
+      int c = coord.col - KNIGHT_RANGE;
+
+      if (in_row(coord.row - 1) && board.at(coord.row - 1).at(c) == KNIGHT) {
+        return true;
+      }
+
+      if (in_row(coord.row + 1) && board.at(coord.row + 1).at(c) == KNIGHT) {
+        return true;
+      }
+    }
+
+    // 2 cols RIGHT, 1 row UP and 1 row DOWN
+    if (in_col(coord.col + KNIGHT_RANGE)) {
+      int c = coord.col + KNIGHT_RANGE;
+
+      if (in_row(coord.row - 1) && board.at(coord.row - 1).at(c) == KNIGHT) {
+        return true;
+      }
+
+      if (in_row(coord.row + 1) && board.at(coord.row + 1).at(c) == KNIGHT) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
-  return n_knights + 1; // The first knight at (0, 0)
-}
+  void printBoard() {
+    for (int i = 0; i < dim.row; ++i) {
+      for (int j = 0; j < dim.col; ++j) {
+        std::cout << (board.at(i).at(j) == KNIGHT ? 'N' : ' ') << "|";
+      }
+      std::cout << '\n';
+    }
+  }
 
-void printBoard(ChessBoard &b, Dim &dim);
+  int addKnights(Coord c) {
+    // Normalize coordinate (so col can overflow and move to next row)
+    if (c.col >= dim.col) {
+      c.col = 0;
+      c.row++;
+    }
+
+    if (c.row >= dim.row) {
+      return 0;
+    }
+
+    // Find next safe cell starting from c
+    for (int r = c.row; r < dim.row; ++r) {
+      for (int col = (r == c.row ? c.col : 0); col < dim.col; ++col) {
+        if (board[r][col] != KNIGHT && !isUnderAttack({r, col})) {
+          // try placing a knight here
+          board[r][col] = KNIGHT;
+          // next coordinate is same row, next column
+          Coord next{r, col + 1};
+          int with = 1 + addKnights(next);
+          // undo
+          board[r][col] = EMPTY;
+          // skip this cell
+          int without = addKnights(next);
+
+          return std::max(with, without);
+        }
+      }
+    }
+
+    // no safe cell found
+    return 0;
+  }
+};
 
 int main() {
   Dim b_dim;
-  int n_knights = 0;
+  Coord c{0, 0};
 
   while (std::cin >> b_dim.row >> b_dim.col && b_dim.row != 0 &&
          b_dim.col != 0) {
-    ChessBoard board{{}};
-    n_knights = addKnights(board, b_dim);
+    ChessBoard board(b_dim);
+    int n_knights = board.addKnights(c);
 
-    std::cout << n_knights << " may be placed on a " << b_dim.row << " row "
-              << b_dim.col << " column board.\n";
+    std::cout << n_knights << " knights may be placed on a " << b_dim.row
+              << " row " << b_dim.col << " column board.\n";
   }
 
   return 0;
-}
-
-void printBoard(ChessBoard &b, Dim &dim) {
-  for (int i = 0; i < dim.row; ++i) {
-    for (int j = 0; j < dim.col; ++j) {
-      std::cout << (b.at(i).at(j) == KNIGHT ? 'N' : ' ') << "|";
-    }
-    std::cout << '\n';
-  }
 }

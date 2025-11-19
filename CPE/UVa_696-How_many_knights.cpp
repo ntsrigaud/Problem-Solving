@@ -16,7 +16,7 @@ int solve(int n, int m) {
     std::swap(n, m);
   }
   if (n == 1) {
-    // No col to jump
+    // A knight can be placed on every square in a 1xM board
     return m;
   }
 

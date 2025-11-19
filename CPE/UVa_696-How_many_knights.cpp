@@ -1,6 +1,4 @@
 #include <iostream>
-#include <vector>
-
 /*
  * UVA: How Many Knights
  * Link: https://onlinejudge.org/external/6/696.pdf

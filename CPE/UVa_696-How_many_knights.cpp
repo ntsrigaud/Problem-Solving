@@ -32,7 +32,10 @@ int solve(int n, int m) {
     return ((m / 4) * 4) + (m % 4 == 1 ? 2 : (m % 4 >= 2) ? 4 : 0);
   }
 
-  return (n * m + 1) / 2; // Integer trick
+  // Place knights on alternating squares (chessboard pattern); this formula computes
+  // the ceiling of half the total squares, which is the maximum number of knights
+  // that can be placed without attacking each other.
+  return (n * m + 1) / 2;
 }
 
 int main() {

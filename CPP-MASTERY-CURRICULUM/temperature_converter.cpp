@@ -26,7 +26,7 @@ int main() {
   try {
     std::cout
         << "============= Celsius to Fahrenheit Converter =============\n";
-    std::cout << "Enter a positive Celsius value: ";
+    std::cout << "Enter a Celsius temperature: ";
     std::cin >> celsius;
 
     double fahrenheit = celsius2Fahrenheit(celsius);

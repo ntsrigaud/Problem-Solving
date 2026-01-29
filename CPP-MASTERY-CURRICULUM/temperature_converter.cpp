@@ -35,7 +35,7 @@ int main() {
   } catch (const std::invalid_argument &e) {
     std::cerr << e.what() << "\n";
   } catch (...) {
-    std::cerr << "An unexpected error has occured." << "\n";
+    std::cerr << "An unexpected error has occurred." << "\n";
   }
   return 0;
 }

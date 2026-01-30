@@ -17,7 +17,7 @@ int main() {
     std::cout << "=========== Number Guessing Game ===========\n";
     std::cout << "Rules:\n";
     std::cout
-        << "1- After the game starts, enter a number between the range (1 - "
+        << "1- After the game starts, enter a number between the range (0 - "
         << max_guess - 1 << "):\n";
     std::cout << "2- You play until a valid guess is entered.\n";
     std::cout << "============================================\n";

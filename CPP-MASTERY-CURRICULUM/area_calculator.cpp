@@ -10,8 +10,46 @@
 
 constexpr char ENDLINE = '\n';
 
-extern double rectangle_area(double w, double h);
-extern double rectangle_perimeter(double w, double h);
+using RectDim = std::pair<double, double>;
+
+class Rectangle {
+public:
+  explicit Rectangle(const RectDim &dim) {
+    if (dim.first < 0) {
+      throw std::invalid_argument("Invalid rectangle width: " +
+                                  std::to_string(dim.first));
+    }
+
+    if (dim.second < 0) {
+      throw std::invalid_argument("Invalid rectangle height: " +
+                                  std::to_string(dim.second));
+    }
+
+    width = dim.first;
+    height = dim.second;
+  };
+
+  [[nodiscard]] double rectangle_area() const;
+  [[nodiscard]] double rectangle_perimeter() const;
+  void print() const;
+
+private:
+  double width;
+  double height;
+};
+
+double Rectangle::rectangle_area() const { return width * height; };
+double Rectangle::rectangle_perimeter() const { return 2 * (width + height); };
+void Rectangle::print() const {
+  std::cout << "================ Rectangle Properties =============="
+            << ENDLINE;
+  std::cout << "Width: " << width << ENDLINE;
+  std::cout << "Height: " << height << ENDLINE;
+  std::cout << "Area: " << rectangle_area() << ENDLINE;
+  std::cout << "Perimeter: " << rectangle_perimeter() << ENDLINE;
+  std::cout << "===================================================="
+            << ENDLINE;
+}
 
 int main() {
   try {
@@ -31,11 +69,8 @@ int main() {
           "Invalid input. Please enter a numeric height value.");
     }
 
-    double rect_area = rectangle_area(width, height);
-    double rect_perim = rectangle_perimeter(width, height);
-
-    std::cout << "Rectangle area: " << rect_area << ENDLINE;
-    std::cout << "Rectangle perimeter: " << rect_perim << ENDLINE;
+    Rectangle r(RectDim(width, height));
+    r.print();
 
   } catch (const std::invalid_argument &e) {
     std::cerr << e.what() << "\n";
@@ -45,31 +80,3 @@ int main() {
 
   return 0;
 }
-
-double rectangle_area(double w, double h) {
-  if (w < 0) {
-    throw std::invalid_argument("Invalid rectangle width: " +
-                                std::to_string(w));
-  }
-
-  if (h < 0) {
-    throw std::invalid_argument("Invalid rectangle height: " +
-                                std::to_string(h));
-  }
-
-  return w * h;
-}
-
-double rectangle_perimeter(double w, double h) {
-  if (w < 0) {
-    throw std::invalid_argument("Invalid rectangle width: " +
-                                std::to_string(w));
-  }
-
-  if (h < 0) {
-    throw std::invalid_argument("Invalid rectangle height: " +
-                                std::to_string(h));
-  }
-
-  return 2 * (w + h);
-};

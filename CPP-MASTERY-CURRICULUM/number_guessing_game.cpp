@@ -9,8 +9,6 @@
 
 constexpr int MAX_GUESS = 100;
 
-void guess_number(int secret_number);
-
 int main() {
   srand(time(nullptr));
   int secret_number = rand() % MAX_GUESS;

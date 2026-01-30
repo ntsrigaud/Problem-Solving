@@ -23,7 +23,8 @@ int main() {
       }
 
       // Check up to the square root of n
-      for (int i = 2; i <= std::sqrt(n); ++i) {
+      const int limit = static_cast<int>(std::sqrt(n));
+      for (int i = 2; i <= limit; ++i) {
         if (n % i == 0) {
           return false;
         }

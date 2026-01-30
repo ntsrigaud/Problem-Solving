@@ -5,7 +5,8 @@
 // Read an integer and determine if it's prime.
 // Q.A: What's the minimum number of checks needed?
 // -> Using trial division up to sqrt(n), for a positive integer `n` we check
-//    divisibility by each integer from 2 to floor(sqrt(n)), i.e., about sqrt(n) - 1 checks.
+//    divisibility by each integer from 2 to floor(sqrt(n)), i.e., about sqrt(n)
+//    - 1 checks.
 
 constexpr int MAX_TEST_VALUE = 1000;
 
@@ -22,9 +23,11 @@ int main() {
         return false;
       }
 
+      // In a real program, we could cache the computations and avoid subsequent
+      // computations for the same input value.
+
       // Check up to the square root of n
-      const int limit = static_cast<int>(std::sqrt(n));
-      for (int i = 2; i <= limit; ++i) {
+      for (int i = 2; i * i <= n; ++i) {
         if (n % i == 0) {
           return false;
         }

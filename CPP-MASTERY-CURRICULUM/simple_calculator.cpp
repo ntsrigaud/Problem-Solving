@@ -16,7 +16,7 @@ struct OpArgs {
 // TODO(Neil): Should not use "extern" keywork here since the function is not
 // defined in another file, but how can we make it static and silence the
 // linter?
-extern double calculate(const OpArgs &op);
+extern double calculate(const OpArgs &op_args);
 
 extern void desc() {
   std::cout << "=========== Basic Math Calculator =========\n";

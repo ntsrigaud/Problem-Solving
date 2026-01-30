@@ -10,7 +10,6 @@
       "cppStandard": "c++17",
       "intelliSenseMode": "macos-clang-arm64",
       "compilerArgs": [
-        ""
       ]
     }
   ],

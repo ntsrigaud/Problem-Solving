@@ -60,7 +60,6 @@ int main() {
     if (!(std::cin >> width)) {
       throw std::invalid_argument(
           "Invalid input. Please enter a numeric width value.");
-      ;
     }
 
     std::cout << "Rectangle Height: ";

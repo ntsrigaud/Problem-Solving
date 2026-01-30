@@ -12,7 +12,7 @@ CPP-MASTERY-CURRICULUM/
 ├── area_calculator.cpp     ← Your assignment (now fixed!)
 ├── temperature_converter.cpp
 ├── DEBUGGING_QUICKSTART.md ← Start here!
-└── DEBUGGING_GUIDE.md      ← Complete reference
+└── docs/DEBUGGING_GUIDE.md  ← Complete reference
 ```
 
 ---

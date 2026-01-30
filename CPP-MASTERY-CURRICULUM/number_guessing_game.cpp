@@ -1,5 +1,7 @@
 #include <iostream>
 #include <stdexcept>
+#include <cstdlib>
+#include <ctime>
 
 // Number guessing game:
 // Pick a secret number (1-100). Let user guess. Respond with "higher" or

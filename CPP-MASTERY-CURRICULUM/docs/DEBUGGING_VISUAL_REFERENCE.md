@@ -11,7 +11,7 @@ CPP-MASTERY-CURRICULUM/
 ├── debug_test.cpp          ← Test program for debugging
 ├── area_calculator.cpp     ← Your assignment (now fixed!)
 ├── temperature_converter.cpp
-├── DEBUGGING_QUICKSTART.md ← Start here!
+├── docs/DEBUGGING_QUICKSTART.md ← Start here!
 └── docs/DEBUGGING_GUIDE.md  ← Complete reference
 ```
 

@@ -2,3 +2,6 @@ build/
 .cache/
 CPE/Trees-on-the-Level/.vscode
 *.out
+*.dSYM/
+CPP-MASTERY-CURRICULUM/area_calculator
+CPP-MASTERY-CURRICULUM/debug_test

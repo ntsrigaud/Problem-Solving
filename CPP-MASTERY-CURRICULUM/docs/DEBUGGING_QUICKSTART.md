@@ -9,7 +9,7 @@ I've configured your VS Code environment for proper C++ debugging. Here's what c
 1. ✅ **launch.json** - Corrected debugger configuration (removed conflicting types)
 2. ✅ **tasks.json** - Added `-O0` flag for better debugging (no optimization)
 3. ✅ **Added helpful flags** - `-Wall`, `-Wextra`, `-std=c++17` for better error detection
-4. 🐛 **Fixed bug in area_calculator.cpp** - Removed duplicate `std::cin >> height` on line 31
+4. 🐛 **Fixed bug in area_calculator.cpp** - Resolved an issue with the area calculation example code
 
 ### Your Debugger Options
 

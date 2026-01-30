@@ -4,8 +4,8 @@
 
 // Read an integer and determine if it's prime.
 // Q.A: What's the minimum number of checks needed?
-// -> Using the method of Sieve or Eratosthenes, for a positive integer `n` we
-// will have to perform `sqrt(n) - 2` checks.
+// -> Using trial division up to sqrt(n), for a positive integer `n` we check
+//    divisibility by each integer from 2 to floor(sqrt(n)), i.e., about sqrt(n) - 1 checks.
 
 constexpr int MAX_TEST_VALUE = 1000;
 

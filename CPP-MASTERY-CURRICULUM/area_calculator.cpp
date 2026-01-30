@@ -5,7 +5,7 @@
 // Read width and height, compute area of a rectangle. Then extend to compute
 // perimeter.
 
-// Q.A.: What happens if the user enter negative numbers? Should your
+// Q.A.: What happens if the user enters negative numbers? Should your
 // program handle this?
 
 constexpr char ENDLINE = '\n';

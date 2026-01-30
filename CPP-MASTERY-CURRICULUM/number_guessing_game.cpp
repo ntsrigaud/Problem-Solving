@@ -1,7 +1,7 @@
-#include <iostream>
-#include <stdexcept>
 #include <cstdlib>
 #include <ctime>
+#include <iostream>
+#include <stdexcept>
 
 // Number guessing game:
 // Pick a secret number (1-100). Let user guess. Respond with "higher" or
@@ -29,14 +29,30 @@ int main() {
 
     while (true) {
       std::cout << "Enter your guess: ";
-      if (!(std::cin >> input)) {
-        throw std::invalid_argument(
-            "Invalid input. Please enter a numeric value.");
-      }
 
-      if (input < 0 || input >= MAX_GUESS) {
-        throw std::invalid_argument(
-            "Invalid input. Please enter a value within the described range.");
+      try {
+        if (!(std::cin >> input)) {
+          throw std::invalid_argument(
+              "Invalid input. Please enter a numeric value.");
+        }
+
+        if (input < 0 || input >= MAX_GUESS) {
+          throw std::invalid_argument("Invalid input. Please enter a value "
+                                      "within the described range.");
+        }
+
+      } catch (const std::invalid_argument &e) {
+        std::cerr << e.what() << '\n';
+        std::cin.clear();
+        std::cin.ignore();
+        continue;
+
+      } catch (...) {
+        std::cerr << "An unexpected error has occurred.\n";
+
+        std::cin.clear();
+        std::cin.ignore();
+        continue;
       }
 
       ++count;

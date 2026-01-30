@@ -11,14 +11,14 @@ constexpr int MAX_GUESS = 100;
 
 int main() {
   srand(time(nullptr));
-  int secret_number = rand() % MAX_GUESS;
+  int secret_number = rand() % (MAX_GUESS + 1);
 
   auto desc = [](int max_guess) -> void {
     std::cout << "=========== Number Guessing Game ===========\n";
     std::cout << "Rules:\n";
     std::cout
-        << "1- After the game starts, enter a number between the range (0 - "
-        << max_guess - 1 << "):\n";
+        << "1- After the game starts, enter a number between the range (1 - "
+        << max_guess << "):\n";
     std::cout << "2- You play until a valid guess is entered.\n";
     std::cout << "============================================\n";
   };
@@ -36,7 +36,7 @@ int main() {
               "Invalid input. Please enter a numeric value.");
         }
 
-        if (input < 0 || input >= MAX_GUESS) {
+        if (input <= 0 || input > MAX_GUESS) {
           throw std::invalid_argument("Invalid input. Please enter a value "
                                       "within the described range.");
         }

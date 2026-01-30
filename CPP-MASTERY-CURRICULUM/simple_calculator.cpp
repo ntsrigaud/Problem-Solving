@@ -32,7 +32,10 @@ int main() {
     desc();
 
     std::cout << "Enter a valid operation: ";
-    std::cin >> op_args.n1 >> op_args.op >> op_args.n2;
+    if (!(std::cin >> op_args.n1 >> op_args.op >> op_args.n2)) {
+      throw std::invalid_argument(
+          "Invalid input. Expected format: <int> <operator> <int>");
+    }
 
     double result = calculate(op_args);
     std::cout << "Result: " << result << ENDLINE;

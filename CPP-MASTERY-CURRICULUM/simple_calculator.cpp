@@ -13,12 +13,9 @@ struct OpArgs {
   int n2 = 0;
 };
 
-// TODO(Neil): Should not use "extern" keywork here since the function is not
-// defined in another file, but how can we make it static and silence the
-// linter?
-extern double calculate(const OpArgs &op_args);
+double calculate(const OpArgs &op_args);
 
-extern void desc() {
+void desc() {
   std::cout << "=========== Basic Math Calculator =========\n";
   std::cout << "Supported Operators: +, -, *, /" << ENDLINE;
   std::cout << "Operation Example: 3 + 5" << ENDLINE;
@@ -50,7 +47,7 @@ int main() {
   return 0;
 }
 
-extern double calculate(const OpArgs &op_args) {
+double calculate(const OpArgs &op_args) {
   switch (op_args.op) {
   case '+':
     return op_args.n1 + op_args.n2;

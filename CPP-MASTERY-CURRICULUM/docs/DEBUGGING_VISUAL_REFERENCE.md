@@ -100,7 +100,7 @@ CPP-MASTERY-CURRICULUM/
 │  │  └─ x + y  │  │  8  }                                  │  │
 │  ├─ Call Stack│  └────────────────────────────────────────┘  │
 │  │  └─ main() │                                              │
-│  └─ Breakpnts │  Debug Console (below)                       │
+│  └─ Breakpoints │  Debug Console (below)                     │
 │     └─ file:4 │  > x                                         │
 │               │  10                                          │
 │               │  > y                                         │

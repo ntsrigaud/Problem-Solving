@@ -20,7 +20,7 @@ extern double calculate(const OpArgs &op);
 
 extern void desc() {
   std::cout << "=========== Basic Math Calculator =========\n";
-  std::cout << "Supported Operators: +, -, *, \\" << ENDLINE;
+  std::cout << "Supported Operators: +, -, *, /" << ENDLINE;
   std::cout << "Operation Example: 3 + 5" << ENDLINE;
   std::cout << "===========================================\n";
 }

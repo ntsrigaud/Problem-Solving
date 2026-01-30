@@ -30,8 +30,8 @@
       "type": "lldb",
       "request": "launch",
       "args": [],
-      "cwd": "/Users/neil/dev/repos/Just-Programming/CPP-MASTERY-CURRICULUM",
-      "program": "/Users/neil/dev/repos/Just-Programming/CPP-MASTERY-CURRICULUM/build/Debug/outDebug"
+      "cwd": "${workspaceFolder}",
+      "program": "${workspaceFolder}/build/Debug/outDebug"
     }
   ]
 }

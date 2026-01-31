@@ -19,15 +19,13 @@ int factorial(int n) {
     return 1;
   }
 
-  int a = 1;
-  int b = 1;
+  int result = 1;
 
   for (int i = 2; i <= n; ++i) {
-    a = b;
-    b = a * i;
+    result *= i;
   }
 
-  return b;
+  return result;
 }
 
 int main() {

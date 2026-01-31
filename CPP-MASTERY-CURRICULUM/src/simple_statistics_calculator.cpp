@@ -11,7 +11,6 @@ struct StatMetrics {
   double avg = 0;
   int min = INT_MAX;
   int max = INT_MIN;
-  bool is_valid = false;
 
   void print() {
     std::cout << "========== Statistics Results ==========\n";
@@ -58,9 +57,12 @@ int main() {
       throw std::invalid_argument("A valid sequence of integers is required.");
     }
 
+    if (all_the_same) {
+      throw std::invalid_argument("The input sequence must not be all the same.");
+    }
+
     stat_metrics.avg =
         static_cast<double>(stat_metrics.sum) / stat_metrics.count;
-    stat_metrics.is_valid = !all_the_same;
   };
 
   try {

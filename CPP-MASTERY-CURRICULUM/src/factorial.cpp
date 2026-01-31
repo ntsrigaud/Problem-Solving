@@ -4,17 +4,17 @@
 
 // Write `int factorial(int n)` that computes n!
 
-// Max value before overflow for this implementation
-constexpr int MAX_INT_VALUE = 12;
+// Max n before overflow for this implementation
+constexpr int MAX_FACTORIAL_N = 12;
 
 int factorial(int n) {
   if (n < 0) {
     throw std::invalid_argument("factorial is undefined for negative values.");
   }
 
-  if (n > MAX_INT_VALUE) {
+  if (n > MAX_FACTORIAL_N) {
     throw std::overflow_error("Please enter a value less or equal to " +
-                              std::to_string(MAX_INT_VALUE));
+                              std::to_string(MAX_FACTORIAL_N));
   }
 
   if (n == 0 || n == 1) {
@@ -34,7 +34,7 @@ int main() {
   try {
     int n = 0;
 
-    std::cout << "Please enter a number between 0 and " << MAX_INT_VALUE
+    std::cout << "Please enter a number between 0 and " << MAX_FACTORIAL_N
               << ": ";
     if (!(std::cin >> n)) {
       throw std::invalid_argument("Please enter a valid numeric value.");

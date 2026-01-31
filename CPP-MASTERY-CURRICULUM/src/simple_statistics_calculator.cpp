@@ -43,7 +43,6 @@ int main() {
 
       ++stat_metrics.count;
 
-      prev = n;
       if (stat_metrics.sum != 0 && prev != n) {
         all_the_same = false;
       }
@@ -51,6 +50,7 @@ int main() {
       stat_metrics.sum += n;
       stat_metrics.min = std::min(stat_metrics.min, n);
       stat_metrics.max = std::max(stat_metrics.max, n);
+      prev = n;
     }
 
     if (stat_metrics.count == 0) {

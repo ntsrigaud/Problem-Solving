@@ -14,6 +14,8 @@ public:
   ~Solution() = default;
 
   // Add problem-specific methods here
+  int sum(int arr[], int size) const;
+  double average(int arr[], int size) const;
 };
 
 #endif // !SOLUTION_H

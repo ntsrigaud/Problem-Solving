@@ -3,6 +3,8 @@
 
 #include <string>
 
+constexpr int MAX_ARR_SIZE = 50;
+
 constexpr char WHITESPACE = ' ';
 constexpr char NEWLINE = '\n';
 

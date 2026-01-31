@@ -34,7 +34,8 @@ int main() {
     std::cout << "Enter a sequence of numbers: ";
     while (true) {
       if (!(std::cin >> n)) {
-        throw std::invalid_argument("Invalid input. Please enter numeric values.");
+        throw std::invalid_argument(
+            "Invalid input. Please enter numeric values.");
       }
 
       if (n == 0) {
@@ -58,7 +59,8 @@ int main() {
     }
 
     if (all_the_same) {
-      throw std::invalid_argument("The input sequence must not be all the same.");
+      throw std::invalid_argument(
+          "The input sequence must not be all the same.");
     }
 
     stat_metrics.avg =
@@ -68,7 +70,7 @@ int main() {
   try {
     get_numbers();
     stat_metrics.print();
-  } catch (const std::invalid_argument& e) {
+  } catch (const std::invalid_argument &e) {
     std::cerr << "Invalid input: " << e.what() << '\n';
   } catch (...) {
     std::cerr << "An unexpected error has occurred.\n";

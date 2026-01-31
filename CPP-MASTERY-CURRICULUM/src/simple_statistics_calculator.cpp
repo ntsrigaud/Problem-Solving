@@ -20,7 +20,7 @@ struct StatMetrics {
     std::cout << "Min: " << min << " \n";
     std::cout << "Max: " << max << " \n";
     std::cout << "========================================\n";
-  };
+  }
 };
 
 int main() {

@@ -42,7 +42,10 @@ int main() {
     std::string input;
     std::cout << "Enter a text: ";
 
-    std::getline(std::cin, input);
+    if (!std::getline(std::cin, input)) {
+      std::cerr << "Failed to read input.\n";
+      return 1;
+    }
 
     bool is_palindrome = isPalindrome(input);
     std::cout << input << " is " << (is_palindrome ? "" : "not ")

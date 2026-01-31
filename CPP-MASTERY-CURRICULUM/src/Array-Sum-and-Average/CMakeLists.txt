@@ -12,9 +12,9 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 # Include global headers
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
+# Enable testing globally (must be before add_subdirectory)
+enable_testing()
+
 # Add subdirectories
 add_subdirectory(src)
 add_subdirectory(tests)
-
-# Enable testing globally
-enable_testing()

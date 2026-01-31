@@ -17,8 +17,9 @@ bool isPalindrome(const std::string &str) {
   auto remove_invalid_chars = [&]() -> std::string {
     std::string res;
     for (const auto &ch : str) {
-      if (std::isalnum(ch)) {
-        res.push_back(std::tolower(ch));
+      unsigned char uch = static_cast<unsigned char>(ch);
+      if (std::isalnum(uch)) {
+        res.push_back(static_cast<char>(std::tolower(uch)));
       }
     }
 

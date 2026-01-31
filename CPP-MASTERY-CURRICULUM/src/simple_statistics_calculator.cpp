@@ -69,7 +69,7 @@ int main() {
     get_numbers();
     stat_metrics.print();
   } catch (const std::invalid_argument& e) {
-    std::cerr << e.what() << '\n';
+    std::cerr << "Invalid input: " << e.what() << '\n';
   } catch (...) {
     std::cerr << "An unexpected error has occurred.\n";
   }

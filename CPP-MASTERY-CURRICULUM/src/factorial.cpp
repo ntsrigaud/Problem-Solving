@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdexcept>
+#include <string>
 
 // Write `int factorial(int n)` that computes n!
 
@@ -12,7 +13,8 @@ int factorial(int n) {
   }
 
   if (n > MAX_INT_VALUE) {
-    throw std::runtime_error("Operation overlfow. Please try a smaller value.");
+    throw std::overflow_error("Please enter a value less or equal to " +
+                              std::to_string(MAX_INT_VALUE));
   }
 
   if (n == 0 || n == 1) {
@@ -42,8 +44,8 @@ int main() {
     std::cout << "Factorial(" << n << ") = " << result << '\n';
   } catch (const std::invalid_argument &e) {
     std::cerr << "Invalid argument: " << e.what() << '\n';
-  } catch (const std::runtime_error &e) {
-    std::cerr << "Runtime error: " << e.what() << '\n';
+  } catch (const std::overflow_error &e) {
+    std::cerr << "Overflow error: " << e.what() << '\n';
   } catch (...) {
     std::cerr << "An unexpected error has occurred.\n";
   }

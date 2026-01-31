@@ -34,7 +34,7 @@ int main() {
     std::cout << "Enter a sequence of numbers: ";
     while (true) {
       if (!(std::cin >> n)) {
-        std::cout << "Invalid input. Please enter a valid number.\n";
+        throw std::invalid_argument("Invalid input. Please enter numeric values.");
       }
 
       if (n == 0) {

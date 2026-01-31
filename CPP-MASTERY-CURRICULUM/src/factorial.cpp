@@ -9,7 +9,7 @@ constexpr int MAX_INT_VALUE = 12;
 
 int factorial(int n) {
   if (n < 0) {
-    throw std::invalid_argument("Factorial of negative input.");
+    throw std::invalid_argument("factorial is undefined for negative values.");
   }
 
   if (n > MAX_INT_VALUE) {

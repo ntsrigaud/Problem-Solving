@@ -12,5 +12,5 @@ int Solution::sum(int arr[], int size) const {
 }
 
 double Solution::average(int arr[], int size) const {
-  return sum(arr, size) / size;
+  return static_cast<double>(sum(arr, size)) / size;
 };

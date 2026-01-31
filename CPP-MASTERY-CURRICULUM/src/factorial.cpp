@@ -34,12 +34,14 @@ int main() {
   try {
     int n = 0;
 
-    std::cout << "Please enter a number between 0 and 12: ";
+    std::cout << "Please enter a number between 0 and " << MAX_INT_VALUE
+              << ": ";
     if (!(std::cin >> n)) {
       throw std::invalid_argument("Please enter a valid numeric value.");
     }
 
-    std::cout << "Factorial(" << n << ") = " << factorial(n) << '\n';
+    int result = factorial(n);
+    std::cout << "Factorial(" << n << ") = " << result << '\n';
   } catch (const std::invalid_argument &e) {
     std::cerr << "Invalid argument: " << e.what() << '\n';
   } catch (const std::runtime_error &e) {

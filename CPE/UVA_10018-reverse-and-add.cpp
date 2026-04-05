@@ -6,21 +6,21 @@ constexpr int MAX_ITERATIONS = 1000;
 // Reverse and add
 
 typedef struct Result {
-	int value = 0;
-	int iterations = 0;
+	long long value = 0;
+	long long iterations = 0;
 	
 	void display()const {
 		std::cout << iterations << " " << value << '\n';
 	};
 } Result;
 
-int reverse_number(int n);
-int reverse_add_number(int n);
-Result compute_palindrome(int n);
+long long reverse_number(long long n);
+long long reverse_add_number(long long n);
+Result compute_palindrome(long long n);
 
 int main () {
 	int testcases = 0;
-	int p = 0;
+	long long p = 0;
 	Result res; 
 	
 	std::cin >> testcases;
@@ -32,14 +32,14 @@ int main () {
 	}
 }
 
-Result compute_palindrome(int n) {
+Result compute_palindrome(long long n) {
 	// Reverse and add until palindrome found
-	auto is_palindrome = [](int value) -> bool {
+	auto is_palindrome = [](long long value) -> bool {
 		std::string str = std::to_string(value);
-		int len = str.length();
-		int mid = len / 2;
+		long long len = str.length();
+		long long mid = len / 2;
 		
-		for (int i = 0; i < mid; ++i) {
+		for (long long i = 0; i < mid; ++i) {
 			if (str[i] != str[len - i - 1]) {
 				return false;
 			}
@@ -48,8 +48,8 @@ Result compute_palindrome(int n) {
 		return true;
 	};
 	
-	int it_count = 0;
-	int candidate = n;
+	long long it_count = 0;
+	long long candidate = n;
 	while (++it_count <= MAX_ITERATIONS) {
 		candidate = reverse_add_number(candidate);
 		if (is_palindrome(candidate)) {
@@ -60,11 +60,11 @@ Result compute_palindrome(int n) {
 	return {0, 0};
 }
 
-int reverse_number(int n) {
-	int res = 0;
+long long reverse_number(long long n) {
+	long long res = 0;
 	
 	while (n > 0) {
-		int mod = (n % 10);
+		long long mod = (n % 10);
 		res = res *10 + mod;
     n /= 10;
 	}
@@ -72,6 +72,6 @@ int reverse_number(int n) {
 	return res;
 }
 
-int reverse_add_number(int n) {
+long long reverse_add_number(long long n) {
 	return reverse_number(n) + n;
 }

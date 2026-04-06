@@ -1,9 +1,8 @@
 #include <iostream>
-#include <string>
 
 constexpr int MAX_ITERATIONS = 1000;
 
-// Reverse and add
+// UVa 10018 - Reverse and add
 
 typedef struct Result {
 	long long value = 0;
@@ -35,17 +34,7 @@ int main () {
 Result compute_palindrome(long long n) {
 	// Reverse and add until palindrome found
 	auto is_palindrome = [](long long value) -> bool {
-		std::string str = std::to_string(value);
-		long long len = str.length();
-		long long mid = len / 2;
-		
-		for (long long i = 0; i < mid; ++i) {
-			if (str[i] != str[len - i - 1]) {
-				return false;
-			}
-		}
-		
-		return true;
+    return value == reverse_number(value);
 	};
 	
 	long long it_count = 0;

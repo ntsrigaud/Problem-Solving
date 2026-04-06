@@ -17,10 +17,11 @@ long long reverse_number(long long n) {
 }
 
 void solve() {
-  int iterations = 0;
   long long n = 0;
 
-  std::cin >> n;
+  if (!(std::cin >> n)) return;
+
+  int iterations = 0;
 
   // Execute at least once
   do {

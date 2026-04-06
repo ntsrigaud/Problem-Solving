@@ -4,7 +4,17 @@ constexpr int MAX_ITERATIONS = 1000;
 
 // UVa 10018 - Reverse and add
 
-long long reverse_number(long long n);
+long long reverse_number(long long n) {
+  long long res = 0;
+
+  while (n > 0) {
+    long long mod = (n % 10);
+    res = res * 10 + mod;
+    n /= 10;
+  }
+
+  return res;
+}
 
 void solve() {
   int n;
@@ -39,14 +49,3 @@ int main() {
   return 0;
 }
 
-long long reverse_number(long long n) {
-  long long res = 0;
-
-  while (n > 0) {
-    long long mod = (n % 10);
-    res = res * 10 + mod;
-    n /= 10;
-  }
-
-  return res;
-}

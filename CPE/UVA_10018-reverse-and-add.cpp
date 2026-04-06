@@ -9,8 +9,7 @@ long long reverse_number(long long n) {
 
   // As long as n is positive, we extract digits
   while (n > 0) {
-    long long mod = (n % 10);
-    res = res * 10 + mod;
+    res = res * 10 + (n % 10);
     n /= 10;
   }
 

@@ -26,11 +26,13 @@ void solve() {
 int main() {
   int testcases = 0;
 
-  std::cin >> testcases;
-
-  for (int i = 0; i < testcases; ++i) {
-    solve();
+  if (std::cin >> testcases && testcases > 0) {
+    while (testcases--) {
+      solve();
+    }
   }
+
+  return 0;
 }
 
 long long reverse_number(long long n) {

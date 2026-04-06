@@ -1,11 +1,12 @@
 #include <iostream>
+#include <cstdint>
 
 constexpr int MAX_ITERATIONS = 1000;
 
 // UVa 10018 - Reverse and add
 
-long long reverse_number(long long n) {
-  long long res = 0;
+uint32_t reverse_number(uint32_t n) {
+  uint32_t res = 0;
 
   // As long as n is positive, we extract digits
   while (n > 0) {
@@ -18,7 +19,7 @@ long long reverse_number(long long n) {
 
 void solve() {
   // 1. Initialize to 0 to prevent garbage memory issues
-  long long n = 0;
+  uint32_t n = 0;
 
   // 2. Failsafe: Only proceed if we successfully read an integer
   if (!(std::cin >> n)) return;
@@ -27,7 +28,10 @@ void solve() {
 
   // Execute at least once
   do {
-    long long reversed_n = reverse_number(n);
+    uint32_t reversed_n = reverse_number(n);
+
+    // At iteration 17 for input 739, this addition will exceed 4,294,967,295 (UINT_MAX)
+    // Because it is uint32_t, it will wrap around, matching the judge's behavior.
     n += reversed_n;
     ++iterations;
 

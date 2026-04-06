@@ -17,8 +17,8 @@ long long reverse_number(long long n) {
 }
 
 void solve() {
-  int n;
   int iterations = 0;
+  long long n = 0;
 
   std::cin >> n;
 

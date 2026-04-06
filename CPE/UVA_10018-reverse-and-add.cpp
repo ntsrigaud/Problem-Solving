@@ -24,6 +24,10 @@ void solve() {
 }
 
 int main() {
+  // Fast I/O: Crucial for avoiding TLE in competitive programming
+  std::ios_base::sync_with_stdio(false);
+  std::cin.tie(NULL);
+
   int testcases = 0;
 
   if (std::cin >> testcases && testcases > 0) {

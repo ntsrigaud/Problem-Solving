@@ -28,6 +28,10 @@ void solve() {
     long long reversed_n = reverse_number(n);
     n += reversed_n;
     ++iterations;
+
+    // 3. Emergency brake: Prevent infinite loop from Lychrel numbers of overflow.
+    if (iterations >= MAX_ITERATIONS) break;
+
   } while (n != reverse_number(n));
 
   // We stop when the number equals its reverse -> Palindrome

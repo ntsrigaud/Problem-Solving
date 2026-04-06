@@ -7,6 +7,7 @@ constexpr int MAX_ITERATIONS = 1000;
 long long reverse_number(long long n) {
   long long res = 0;
 
+  // As long as n is positive, we extract digits
   while (n > 0) {
     long long mod = (n % 10);
     res = res * 10 + mod;
@@ -17,8 +18,10 @@ long long reverse_number(long long n) {
 }
 
 void solve() {
+  // 1. Initialize to 0 to prevent garbage memory issues
   long long n = 0;
 
+  // 2. Failsafe: Only proceed if we successfully read an integer
   if (!(std::cin >> n)) return;
 
   int iterations = 0;
@@ -45,6 +48,7 @@ int main() {
 
   int testcases = 0;
 
+  // Read the number of testcases, and ensure it actually succeeded.
   if (std::cin >> testcases && testcases > 0) {
     while (testcases--) {
       solve();

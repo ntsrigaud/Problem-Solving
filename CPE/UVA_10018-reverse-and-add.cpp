@@ -1,5 +1,5 @@
-#include <iostream>
 #include <cstdint>
+#include <iostream>
 
 constexpr int MAX_ITERATIONS = 1000;
 
@@ -22,7 +22,8 @@ void solve() {
   uint32_t n = 0;
 
   // 2. Failsafe: Only proceed if we successfully read an integer
-  if (!(std::cin >> n)) return;
+  if (!(std::cin >> n))
+    return;
 
   int iterations = 0;
 
@@ -30,13 +31,16 @@ void solve() {
   do {
     uint32_t reversed_n = reverse_number(n);
 
-    // At iteration 17 for input 739, this addition will exceed 4,294,967,295 (UINT_MAX)
-    // Because it is uint32_t, it will wrap around, matching the judge's behavior.
+    // At iteration 17 for input 739, this addition will exceed 4,294,967,295
+    // (UINT_MAX) Because it is uint32_t, it will wrap around, matching the
+    // judge's behavior.
     n += reversed_n;
     ++iterations;
 
-    // 3. Emergency brake: Prevent infinite loop from Lychrel numbers of overflow.
-    if (iterations >= MAX_ITERATIONS) break;
+    // 3. Emergency brake: Prevent infinite loop from Lychrel numbers of
+    // overflow.
+    if (iterations >= MAX_ITERATIONS)
+      break;
 
   } while (n != reverse_number(n));
 
@@ -60,4 +64,3 @@ int main() {
 
   return 0;
 }
-

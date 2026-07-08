@@ -5,7 +5,7 @@
 
 #define ENDLINE '\n'
 
-bool isValid(const std::string& s) {
+bool isValid(const std::string &s) {
   std::unordered_map<char, char> map{
       {'(', ')'},
       {'{', '}'},

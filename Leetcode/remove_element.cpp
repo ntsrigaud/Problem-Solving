@@ -23,17 +23,16 @@ public:
   }
 };
 
-void print_array(const std::vector<int> &arr, int k=-1) {
+void print_array(const std::vector<int> &arr, int k = -1) {
   k = (k < 0) ? arr.size() : k;
 
   for (int i = 0; i < k; ++i) {
     std::cout << arr.at(i) << ' ';
   }
   std::cout << '\n';
-
 }
 
-int main () {
+int main() {
   Solution sol;
   std::vector<int> nums{0, 0, 1, 2, 2, 3, 1, 3};
 
@@ -44,6 +43,6 @@ int main () {
 
   std::cout << "After: ";
   print_array(nums, k);
-  
+
   return 0;
 }

@@ -1,32 +1,32 @@
 // Leetcode #3 - Longest Substring Without Repeating Characters
 #include <iostream>
-#include <string>
-#include <unordered_map>
+#include <set>
 
 class Solution {
 public:
   int lengthOfLongestSubstring(std::string s) {
-    std::unordered_map<char, size_t> record;
+    size_t i = 0;
     size_t maxLen = 0;
+    std::set<int> record; // Track the duplicates
 
-    auto nextLongest = [&](size_t i) -> size_t {
-      size_t lastCount = 0;
-      record.clear();
+    for (size_t k = 0; k < s.length(); ++k) {
+      // Sliding window
+      if (record.contains(s[k])) {
+        maxLen = (record.size() > maxLen) ? record.size() : maxLen;
+        // Overwrite all until new lower bound
+        while (s[i] != s[k]) {
+          record.erase(s[i++]);
+        }
 
-      while (i < s.length() && !record.contains(s[i])) {
-        ++lastCount;
-        record[s[i]] = 1;
+        // Overwrite previous duplicate
         ++i;
+      } else {
+        record.insert(s[k]);
       }
-
-      return lastCount;
-    };
-
-    for (size_t i = 0; i < s.length(); ++i) {
-      // Find the longest for each position
-      auto lastCount = nextLongest(i);
-      maxLen = (lastCount > maxLen) ? lastCount : maxLen;
     }
+
+    // Edge case: Single letter strings
+    maxLen = (record.size() > maxLen) ? record.size() : maxLen;
 
     return static_cast<int>(maxLen);
   }
@@ -34,7 +34,7 @@ public:
 
 int main() {
   Solution sol;
-  std::string s = "abcabcbb";
+  std::string s = "pwwkew";
 
   std::cout << s << " -> " << sol.lengthOfLongestSubstring(s) << '\n';
 

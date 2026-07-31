@@ -27,33 +27,18 @@ public:
       carryRest = {sum / 10, sum % 10};
     };
 
-    while (l1 != nullptr && l2 != nullptr) {
+    while (l1 != nullptr || l2 != nullptr) {
       updateCarryRest();
       if (head == nullptr) {
         head = new ListNode(carryRest.second);
         curr = head;
-        l1 = l1->next;
-        l2 = l2->next;
       } else {
         curr->next = new ListNode(carryRest.second);
         curr = curr->next;
-        l1 = l1->next;
-        l2 = l2->next;
       }
-    }
 
-    while (l1 != nullptr) {
-      updateCarryRest();
-      curr->next = new ListNode(carryRest.second);
-      curr = curr->next;
-      l1 = l1->next;
-    }
-
-    while (l2 != nullptr) {
-      updateCarryRest();
-      curr->next = new ListNode(carryRest.second);
-      curr = curr->next;
-      l2 = l2->next;
+      l1 = (l1 != nullptr) ? l1->next : l1;
+      l2 = (l2 != nullptr) ? l2->next : l2;
     }
 
     if (carryRest.first != 0) {

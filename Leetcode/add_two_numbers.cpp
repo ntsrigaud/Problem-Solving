@@ -1,51 +1,48 @@
+// Leetcode #2 - Add Two Numbers
 
-struct ListNode {
-  int val;
-  ListNode *next;
-  ListNode() : val(0), next(nullptr) {};
-  ListNode(int x) : val(x), next(nullptr) {};
-  ListNode(int x, ListNode *next) : val(x), next(next) {};
-};
-
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
 class Solution {
 public:
   ListNode *addTwoNumbers(ListNode *l1, ListNode *l2) {
     ListNode *head = nullptr;
     ListNode *curr = nullptr;
-    int carry = 0;
 
-    while (l1 != nullptr && l2 != nullptr) {
+    using CarryRest = std::pair<int, int>;
+    CarryRest carryRest = {0, 0};
+
+    auto updateCarryRest = [&]() -> void {
+      int sum = ((l1 && l2) ? l1->val + l2->val
+                 : (l1)     ? l1->val
+                            : l2->val) +
+                carryRest.first;
+      carryRest = {sum / 10, sum % 10};
+    };
+
+    while (l1 != nullptr || l2 != nullptr) {
+      updateCarryRest();
       if (head == nullptr) {
-        head = new ListNode((l1->val + l2->val) % 10);
-        carry = (l1->val + l2->val) / 10;
+        head = new ListNode(carryRest.second);
         curr = head;
-        l1 = l1->next;
-        l2 = l2->next;
       } else {
-        curr->next = new ListNode((l1->val + l2->val + carry) % 10);
-        carry = (l1->val + l2->val + carry) / 10;
+        curr->next = new ListNode(carryRest.second);
         curr = curr->next;
-        l1 = l1->next;
-        l2 = l2->next;
       }
+
+      l1 = (l1 != nullptr) ? l1->next : l1;
+      l2 = (l2 != nullptr) ? l2->next : l2;
     }
 
-    while (l1 != nullptr) {
-      curr->next = new ListNode((l1->val + carry) % 10);
-      curr = curr->next;
-      carry = (l1->val + carry) / 10;
-      l1 = l1->next;
-    }
-
-    while (l2 != nullptr) {
-      curr->next = new ListNode((l2->val + carry) % 10);
-      curr = curr->next;
-      carry = (l2->val + carry) / 10;
-      l2 = l2->next;
-    }
-
-    if (carry != 0) {
-      curr->next = new ListNode(carry);
+    if (carryRest.first != 0) {
+      curr->next = new ListNode(carryRest.first);
     }
 
     return head;

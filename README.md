@@ -1,10 +1,3 @@
-# Just Programming
+# Problem Solving
 
-This repository contains solutions to various programming problems. The main implementation objectives for the implementation of each solutions are:
-
-- Simplicity
-- Correctness
-- Efficiency
-
-> [!IMPORTANT]
-> Only things that are necessary should be kept here.
+This repository contains solutions to various fundamental programming challenges, including online judges and custom projects designed to understand of core programming principles.

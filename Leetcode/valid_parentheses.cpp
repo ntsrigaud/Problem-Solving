@@ -1,51 +1,59 @@
+// Leetcode #20 - Valid parentheses
+
 #include <iostream>
-#include <stack>
 #include <string>
-#include <unordered_map>
 
-#define ENDLINE '\n'
-
-bool isValid(const std::string &s) {
-  std::unordered_map<char, char> map{
-      {'(', ')'},
-      {'{', '}'},
-      {'[', ']'},
-  };
-
-  std::stack<char> processed;
-
-  auto find_key = [&](char val) -> char {
-    for (const auto &p : map) {
-      if (p.second == val) {
-        return p.first;
-      }
+class Solution {
+public:
+  bool isValid(std::string s) {
+    if (s.size() % 2 != 0) {
+      return false;
     }
 
-    return '0';
-  };
+    // Use stack to match correct order
+    std::string stack;
 
-  for (char ch : s) {
-    if (processed.empty() ||
-        map.contains(ch)) { // Empty stack or opening bracket
-      processed.push(ch);
-    } else if (!map.contains(ch)) { // Ending bracket
-      char key = find_key(ch);
-      if (processed.top() != key) { // Match top of stack
+    auto updateStack = [&](const char p) -> bool {
+      switch (p) {
+      // Push matching closed brackets to check later
+      case '(':
+        stack.push_back(')');
+        return true;
+      case '{':
+        stack.push_back('}');
+        return true;
+      case '[':
+        stack.push_back(']');
+        return true;
+      default:
+        if (!stack.empty() && stack.back() == p) {
+          stack.pop_back();
+          return true;
+        }
+        break;
+      }
+
+      return false;
+    };
+
+    for (const char p : s) {
+      if (!updateStack(p)) {
         return false;
-      } else {
-        processed.pop();
-      }
+      };
     }
-  }
 
-  return processed.empty();
-}
+    return stack.empty();
+  }
+};
 
 int main() {
-  std::string input;
+  std::string testcase;
+  Solution sol;
 
-  std::cin >> input;
-  std::cout << (isValid(input) ? "True" : "False") << '\n';
+  while (std::cin >> testcase && !testcase.empty()) {
+    std::cout << testcase << " -> "
+              << (sol.isValid(testcase) ? "True" : "False") << '\n';
+  }
 
   return 0;
 }

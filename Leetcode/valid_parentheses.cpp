@@ -1,51 +1,41 @@
+// Leetcode #20 - Valid parentheses
+
 #include <iostream>
 #include <stack>
 #include <string>
 #include <unordered_map>
 
-#define ENDLINE '\n'
+class Solution {
+public:
+  bool isValid(std::string s) {
+    const std::unordered_map<char, char> CLOSED_BRACKET{
+        {')', '('}, {'}', '{'}, {']', '['}};
 
-bool isValid(const std::string &s) {
-  std::unordered_map<char, char> map{
-      {'(', ')'},
-      {'{', '}'},
-      {'[', ']'},
-  };
-
-  std::stack<char> processed;
-
-  auto find_key = [&](char val) -> char {
-    for (const auto &p : map) {
-      if (p.second == val) {
-        return p.first;
-      }
-    }
-
-    return '0';
-  };
-
-  for (char ch : s) {
-    if (processed.empty() ||
-        map.contains(ch)) { // Empty stack or opening bracket
-      processed.push(ch);
-    } else if (!map.contains(ch)) { // Ending bracket
-      char key = find_key(ch);
-      if (processed.top() != key) { // Match top of stack
-        return false;
+    // Use stack to match correct order
+    std::stack<char> record;
+    for (const char p : s) {
+      if (CLOSED_BRACKET.contains(p)) {
+        if (record.empty() || record.top() != CLOSED_BRACKET.at(p)) {
+          return false;
+        } // Starting with closed bracket or not matching stack top
+        record.pop();
       } else {
-        processed.pop();
+        record.push(p);
       }
     }
-  }
 
-  return processed.empty();
-}
+    return record.empty();
+  }
+};
 
 int main() {
-  std::string input;
+  std::string testcase;
+  Solution sol;
 
-  std::cin >> input;
-  std::cout << (isValid(input) ? "True" : "False") << '\n';
+  while (std::cin >> testcase && !testcase.empty()) {
+    std::cout << testcase << " -> "
+              << (sol.isValid(testcase) ? "True" : "False") << '\n';
+  }
 
   return 0;
 }

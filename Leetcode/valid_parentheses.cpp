@@ -15,27 +15,22 @@ public:
 
     auto updateStack = [&](const char p) -> bool {
       switch (p) {
-      case ')':
-        if (!stack.empty() && stack.back() == '(') {
-          stack.pop_back();
-          return true;
-        }
-        return false;
-      case '}':
-        if (!stack.empty() && stack.back() == '{') {
-          stack.pop_back();
-          return true;
-        }
-        return false;
-      case ']':
-        if (!stack.empty() && stack.back() == '[') {
-          stack.pop_back();
-          return true;
-        }
-        return false;
-      default:
-        stack += p;
+      // Push matching closed brackets to check later
+      case '(':
+        stack.push_back(')');
         return true;
+      case '{':
+        stack.push_back('}');
+        return true;
+      case '[':
+        stack.push_back(']');
+        return true;
+      default:
+        if (!stack.empty() && stack.back() == p) {
+          stack.pop_back();
+          return true;
+        }
+        break;
       }
 
       return false;

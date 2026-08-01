@@ -1,3 +1,5 @@
+// Leetcode #21 - Merge Two Sorted Lists
+
 /**
  * Definition for singly-linked list.
  * struct ListNode {
@@ -11,23 +13,24 @@
 class Solution {
 public:
   ListNode *mergeTwoLists(ListNode *list1, ListNode *list2) {
-    ListNode head(0);
-    ListNode *tail = &head;
+    ListNode dummy(0);
+    ListNode *cur = &dummy;
 
+    // Parse lists until both have elements
     while (list1 != nullptr && list2 != nullptr) {
       if (list1->val <= list2->val) {
-        tail->next = list1;
+        cur->next = list1;
         list1 = list1->next;
       } else {
-        tail->next = list2;
+        cur->next = list2;
         list2 = list2->next;
       }
-
-      tail = tail->next;
+      cur = cur->next;
     }
 
-    tail->next = (list1 != nullptr) ? list1 : list2;
+    // Assign anything left from non-empty list
+    cur->next = (list1 != nullptr) ? list1 : list2;
 
-    return head.next;
+    return dummy.next;
   }
 };

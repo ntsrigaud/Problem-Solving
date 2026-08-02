@@ -1,49 +1,42 @@
-#include <iostream>
-#include <string>
+// Leetcode #67 - Add Binary
 
-using namespace std;
+#include <string>
 
 class Solution {
 public:
-  string addBinary(string a, string b) {
+  std::string addBinary(std::string a, std::string b) {
+    int maxLen =
+        std::max(static_cast<int>(a.length()), static_cast<int>(b.length()));
     int carry = 0;
+    int sum = 0;
+    int i = maxLen - 1;
+    std::string result;
 
-    auto add_bits = [&](char a, char b) -> char {
-      int res = (a - '0') + (b - '0') + carry;
-      carry = (res < 2) ? 0 : 1;
-      return (res % 2) + '0';
+    // Make them same size if necessary
+    if (a.length() < maxLen) {
+      a = std::string(maxLen - a.length(), '0') + a;
+    }
+    if (b.length() < maxLen) {
+      b = std::string(maxLen - b.length(), '0') + b;
+    }
+
+    auto bin2Digit = [](char bin) -> int { return bin - '0'; };
+
+    auto addBinDigits = [&](char x, char y) -> std::string {
+      sum = (bin2Digit(x) + bin2Digit(y) + carry);
+      carry = sum / 2;
+      return std::to_string((sum % 2) + '0');
     };
 
-    int max_len = std::max(a.size(), b.size());
-    int i = 0;
-
-    // Normalize both strings
-    if (a.size() < max_len) {
-      a.insert(0, max_len - a.size(), '0');
-    } else if (b.size() < max_len) {
-      b.insert(0, max_len - b.size(), '0');
+    while (i >= 0) {
+      result.insert(0, addBinDigits(a.at(i), b.at(i)));
+      --i;
     }
 
-    i = 0;
-    string res;
-    while (max_len - i - 1 >= 0) {
-      res = add_bits(a.at(max_len - i - 1), b.at(max_len - i - 1)) + res;
-      ++i;
+    if (carry != 0) {
+      result.insert(0, std::to_string(carry + '0'));
     }
 
-    if (carry) {
-      res.insert(0, 1, carry + '0');
-    }
-
-    return res;
+    return result;
   }
 };
-
-int main() {
-  Solution sol;
-
-  std::string a = "11", b = "1";
-  std::cout << "Result: " << sol.addBinary(a, b);
-
-  return 0;
-}

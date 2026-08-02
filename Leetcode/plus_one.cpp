@@ -1,46 +1,30 @@
-#include <algorithm>
-#include <iostream>
+// Leetcode #66 - Plus One
+
 #include <vector>
 
 class Solution {
 public:
   std::vector<int> plusOne(std::vector<int> &digits) {
-    int i = digits.size() - 1;
     int carry = 1;
+    int sum = 0;
 
-    while (i >= 0) {
-      if (carry) {
-        carry = (digits[i] + 1) % 10 == 0;
-        digits[i] = (digits[i] + 1) % 10;
-        --i;
-      } else
+    for (int i = digits.size() - 1; i >= 0; --i) {
+      if (carry == 0) {
         break;
+      }
+
+      if (carry == 1) {
+        sum = (digits.at(i) + carry) % 10;
+        carry = (digits.at(i) + carry) / 10;
+        digits.at(i) = sum;
+      }
     }
 
-    if (carry) {
-      digits.insert(digits.begin(), 1);
+    // Prepend the left carry
+    if (carry != 0) {
+      digits.insert(digits.begin(), carry);
     }
 
     return digits;
   }
 };
-
-int main() {
-  std::vector<int> nums{8, 9, 9, 9};
-  Solution sol;
-
-  auto printNums = [](std::vector<int> nums) -> void {
-    std::cout << '[';
-    std::for_each(nums.begin(), nums.end(),
-                  [](int n) { std::cout << n << ','; });
-    std::cout << "}\n";
-  };
-
-  std::cout << "Before: ";
-  printNums(nums);
-  sol.plusOne(nums);
-  std::cout << "After: ";
-  printNums(nums);
-
-  return 0;
-}

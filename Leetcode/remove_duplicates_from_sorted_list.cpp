@@ -1,5 +1,8 @@
-#include <set>
+// Leetcode # 83 - Remove Duplicates from Sorted List
 
+/**
+ * Definition for singly-linked list.
+ */
 struct ListNode {
   int val;
   ListNode *next;
@@ -11,24 +14,17 @@ struct ListNode {
 class Solution {
 public:
   ListNode *deleteDuplicates(ListNode *head) {
-    std::set<int> record;
-    auto p_trav = head;
-    ListNode *prev = nullptr;
-    int cur_val = 0;
+    if (head == nullptr) {
+      return head;
+    }
 
-    while (p_trav != nullptr) {
-      if (record.count(p_trav->val)) {
-        // Prev will be already populated
-        // Move onto the next non-recorded item
-        cur_val = p_trav->val;
-        while (p_trav != nullptr && p_trav->val == cur_val) {
-          p_trav = p_trav->next;
-        }
-        prev->next = p_trav;
+    ListNode *curr = head;
+
+    while (curr->next != nullptr) {
+      if (curr->val != curr->next->val) {
+        curr = curr->next;
       } else {
-        record.insert(p_trav->val);
-        prev = p_trav;
-        p_trav = p_trav->next;
+        curr->next = curr->next->next;
       }
     }
 

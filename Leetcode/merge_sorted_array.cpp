@@ -1,37 +1,35 @@
-// Leetcode #88: Merge Sorted Array
+// Leetcode # 88 - Merge Sorted Array
 
-#include <iterator>
 #include <vector>
 
 class Solution {
 public:
   void merge(std::vector<int> &nums1, int m, std::vector<int> &nums2, int n) {
-    std::vector<int> n1;
-    std::copy(nums1.begin(), nums1.begin() + m, std::back_inserter(n1));
+    int i = 0;
+    int j = 0;
 
-    int i = 0, j = 0, k = 0;
+    std::vector<int> res;
+
     while (i < m && j < n) {
-      if (n1[i] <= nums2[j]) {
-        nums1[k] = n1[i];
+      if (nums1.at(i) <= nums2.at(j)) {
+        res.push_back(nums1.at(i));
         ++i;
       } else {
-        nums1[k] = nums2[j];
+        res.push_back(nums2.at(j));
         ++j;
       }
-
-      ++k;
     }
 
     while (i < m) {
-      nums1[k] = n1[i];
+      res.push_back(nums1.at(i));
       ++i;
-      ++k;
     }
 
     while (j < n) {
-      nums1[k] = nums2[j];
+      res.push_back(nums2.at(j));
       ++j;
-      ++k;
     }
-  };
+
+    nums1 = res;
+  }
 };

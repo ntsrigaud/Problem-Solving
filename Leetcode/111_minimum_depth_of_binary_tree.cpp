@@ -1,9 +1,11 @@
-// Leetcode #111 - Minimum Depth of Binary Tree -> NOT OPTIMAL
+// Leetcode #111 - Minimum Depth of Binary Tree
 
 /**
  * Definition for a binary tree node.
  */
 #include <algorithm>
+#include <cstddef>
+#include <queue>
 struct TreeNode {
   int val;
   TreeNode *left;
@@ -21,18 +23,39 @@ public:
       return 0;
     };
 
-    if (root->left == nullptr && root->right == nullptr) {
-      return 1;
+    // Using BFS insted of DFS for avoiding redundant depth recursions
+    std::queue<TreeNode *> q;
+    int minLevel = 1;
+
+    auto isLeafNode = [](TreeNode *node) -> bool {
+      return node->left == nullptr && node->right == nullptr;
+    };
+
+    // Stop when first leaf node is found
+    q.push(root);
+    while (!q.empty()) {
+      size_t levelSize = q.size();
+
+      // Check for leaf node in the current level
+      for (size_t i = 0; i < levelSize; ++i) {
+        auto *qFront = q.front();
+        q.pop();
+
+        if (isLeafNode(qFront)) {
+          return minLevel;
+        }
+
+        if (qFront->left != nullptr) {
+          q.push(qFront->left);
+        };
+        if (qFront->right != nullptr) {
+          q.push(qFront->right);
+        };
+      }
+
+      ++minLevel;
     }
 
-    if (root->left == nullptr && root->right != nullptr) {
-      return minDepth(root->right) + 1;
-    }
-
-    if (root->left != nullptr && root->right == nullptr) {
-      return minDepth(root->left) + 1;
-    }
-
-    return std::min(minDepth(root->left), minDepth(root->right)) + 1;
+    return minLevel;
   }
 };

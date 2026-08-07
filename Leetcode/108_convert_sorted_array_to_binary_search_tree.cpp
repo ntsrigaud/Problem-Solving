@@ -1,4 +1,4 @@
-// Leetcode #108 - Convert Sorted Array to Binary Search Tree -> NOT OPTIMAL
+// Leetcode #108 - Convert Sorted Array to Binary Search Tree
 
 #include <algorithm>
 #include <iterator>
@@ -19,7 +19,7 @@ struct TreeNode {
 
 class Solution {
 public:
-  TreeNode *sortedArrayToBST(vector<int> &nums) {
+  TreeNode *sortedArrayToBST(std::vector<int> &nums) {
     if (nums.size() == 0) {
       return nullptr;
     };
@@ -31,12 +31,27 @@ public:
     auto median = nums.size() / 2;
     auto *root = new TreeNode(nums.at(median));
 
-    std::vector<int> left(nums.begin(), nums.begin() + median);
-    std::vector<int> right(nums.begin() + median + 1, nums.end());
-
-    root->left = sortedArrayToBST(left);
-    root->right = sortedArrayToBST(right);
+    root->left = sortedArrayToBST(nums, 0, static_cast<int>(median - 1));
+    root->right = sortedArrayToBST(nums, static_cast<int>(median + 1),
+                                   static_cast<int>(nums.size() - 1));
 
     return root;
   }
+
+  TreeNode *sortedArrayToBST(std::vector<int> &nums, int left, int right) {
+    if (left > right || right < left) {
+      return nullptr;
+    };
+    if (left == right) {
+      return new TreeNode(nums.at(left));
+    };
+
+    int median = left + ((right - left) / 2);
+    auto *root = new TreeNode(nums.at(median));
+
+    root->left = sortedArrayToBST(nums, left, median - 1);
+    root->right = sortedArrayToBST(nums, median + 1, right);
+
+    return root;
+  };
 };
